@@ -50,10 +50,12 @@ public class IndexServlet extends HttpServlet {
         // get msgs
         Collection<Message> messages = messageRepository.getAll();
         
-        // get uploaded images
-        //List<PlopboxImage> images = ImageService.getAllImages();
+        // get image ids
+        ImageService.getImageIds();
+        List<PlopboxImage> images = ImageService.getAllImages();
         
         request.setAttribute("messages", messages);
+        request.setAttribute("images", images);
 
         if (log.isDebugEnabled()) {
             log.debug("messages: " + messages);

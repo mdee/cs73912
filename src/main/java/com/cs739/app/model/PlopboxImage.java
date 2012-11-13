@@ -8,7 +8,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
 
-@PersistenceCapable
+@PersistenceCapable(identityType = IdentityType.APPLICATION) 
 public class PlopboxImage {
     
     @PrimaryKey
@@ -21,7 +21,8 @@ public class PlopboxImage {
     @Persistent
     Blob image;
 
-    public PlopboxImage() { }
+    public PlopboxImage() {}
+    
     public PlopboxImage(String name, Blob image) {
         this.name = name; 
         this.image = image;
@@ -33,6 +34,14 @@ public class PlopboxImage {
     
     public void setImage(Blob image) { 
         this.image = image; 
+    }
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
     }
 
 }

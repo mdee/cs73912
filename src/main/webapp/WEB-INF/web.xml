@@ -5,18 +5,30 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     version="2.5">
 
+    <!-- Servlets -->
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>
             com.cs739.app.web.IndexServlet
         </servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BasicFileUploadServlet</servlet-name>
+        <servlet-class>
+            com.cs739.app.web.BasicFileUploadServlet
+        </servlet-class>
+    </servlet>
 
+    <!-- Servlet Mappings -->
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/index</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>BasicFileUploadServlet</servlet-name>
+        <url-pattern>/file</url-pattern>
+    </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index</welcome-file>
     </welcome-file-list>

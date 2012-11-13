@@ -6,8 +6,6 @@ import javax.jdo.PersistenceManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cs739.app.web.IndexServlet;
-
 public final class PMF {
 
     private static final Logger log = LoggerFactory

@@ -14,7 +14,7 @@ import com.cs739.app.model.Message;
 
 public class MessageRepository {
 
-	PersistenceManagerFactory pmfInstance = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+	PersistenceManagerFactory pmfInstance = PMF.get();
 
 	public Collection<Message> getAll() {
 		PersistenceManager pm = pmfInstance.getPersistenceManager();

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -31,8 +32,16 @@
       <input type="submit" value="UPLOAD">
     </form>
     
-    <c:if test="${uploadMsg != null}">
-      <b>${uploadMsg}</b>
+    <c:if test="${fn:length(images) > 0}">
+      <b>THERE'S IMAGES</b>
+      <c:forEach var="image" items="${images}">
+        <c:set var="anchorId" value="${image.id}"/>
+        <a href="/image/<c:out value="${image.id}"/>"><c:out value="${image.name}"/></a>
+      </c:forEach>
+    </c:if>
+    
+    <c:if test="${fn:length(images) == 0}">
+      <b>No images</b>
     </c:if>
   </p>
 </body>
