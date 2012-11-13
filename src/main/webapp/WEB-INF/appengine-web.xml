@@ -2,7 +2,7 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://appengine.google.com/ns/1.0 http://googleappengine.googlecode.com/svn/branches/1.2.1/java/docs/appengine-web.xsd">
     <application>cs73912</application>
-    <version>1-A</version>
+    <version>1-a</version>
 
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties"/>
@@ -10,6 +10,6 @@ xsi:schemaLocation="http://appengine.google.com/ns/1.0 http://googleappengine.go
 
     <sessions-enabled>true</sessions-enabled>
 	
-	<threadsafe>true</threadsafe>
+	<threadsafe>false</threadsafe>
 
 </appengine-web-app>
