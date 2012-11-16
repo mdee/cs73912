@@ -8,6 +8,10 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Blob;
 
+/**
+ * Basic model to represent an image file.
+ * @author MDee
+ */
 @PersistenceCapable(identityType = IdentityType.APPLICATION) 
 public class PlopboxImage {
     

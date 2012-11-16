@@ -6,6 +6,7 @@ import javax.jdo.PersistenceManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public final class PMF {
 
     private static final Logger log = LoggerFactory
@@ -17,10 +18,6 @@ public final class PMF {
     private PMF() {}
 
     public static PersistenceManagerFactory get() {
-        if (log.isDebugEnabled()) {
-            log.debug("SOMBODY CALLED GET()");
-            log.debug(pmfInstance.toString());
-        }
         return pmfInstance;
     }
 
