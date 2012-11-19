@@ -9,25 +9,19 @@
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>
-      com.cs739.app.servlet.IndexServlet
-    </servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>BasicFileUploadServlet</servlet-name>
-    <servlet-class>
-      com.cs739.app.servlet.BasicFileUploadServlet
+      com.cs739.app.servlet.master.IndexServlet
     </servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UninitializedServlet</servlet-name>
     <servlet-class>
-      com.cs739.app.servlet.UninitializedServlet
+      com.cs739.app.servlet.master.UninitializedServlet
     </servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AddReplicantServlet</servlet-name>
     <servlet-class>
-      com.cs739.app.servlet.AddReplicantServlet
+      com.cs739.app.servlet.master.AddReplicantServlet
     </servlet-class>
   </servlet>
 
@@ -35,10 +29,6 @@
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/pb/index</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>BasicFileUploadServlet</servlet-name>
-    <url-pattern>/pb/file</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UninitializedServlet</servlet-name>
@@ -51,18 +41,18 @@
     
   <!-- LISTNERZ -->
   <listener>
-    <listener-class>com.cs739.app.servlet.IndexServlet</listener-class>
+    <listener-class>com.cs739.app.servlet.master.IndexServlet</listener-class>
   </listener>
     
   <!-- Filters -->
   <filter>
-    <filter-name>PlopboxFilter</filter-name>
+    <filter-name>PlopboxMasterFilter</filter-name>
     <filter-class>
-      com.cs739.app.filter.PlopboxFilter
+      com.cs739.app.filter.PlopboxMasterFilter
     </filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>PlopboxFilter</filter-name>
+    <filter-name>PlopboxMasterFilter</filter-name>
     <url-pattern>/pb/*</url-pattern>
   </filter-mapping>
     

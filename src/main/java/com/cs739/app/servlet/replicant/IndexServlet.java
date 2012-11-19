@@ -1,5 +1,5 @@
 
-package com.cs739.app.servlet.master;
+package com.cs739.app.servlet.replicant;
 
 import java.io.IOException;
 import java.util.ArrayList;

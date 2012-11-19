@@ -9,13 +9,13 @@
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
     <servlet-class>
-      com.cs739.app.servlet.IndexServlet
+      com.cs739.app.servlet.replicant.IndexServlet
     </servlet-class>
   </servlet>
   <servlet>
     <servlet-name>BasicFileUploadServlet</servlet-name>
     <servlet-class>
-      com.cs739.app.servlet.BasicFileUploadServlet
+      com.cs739.app.servlet.replicant.BasicFileUploadServlet
     </servlet-class>
   </servlet>
 
@@ -31,7 +31,7 @@
     
   <!-- LISTNERZ -->
   <listener>
-    <listener-class>com.cs739.app.servlet.IndexServlet</listener-class>
+    <listener-class>com.cs739.app.servlet.replicant.IndexServlet</listener-class>
   </listener>
     
   <!-- Filters -->
@@ -42,7 +42,7 @@
     </filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>PlopboxFilter</filter-name>
+    <filter-name>PlopboxReplicantFilter</filter-name>
     <url-pattern>/pb/*</url-pattern>
   </filter-mapping>
     

@@ -1,4 +1,4 @@
-package com.cs739.app.servlet;
+package com.cs739.app.servlet.master;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;

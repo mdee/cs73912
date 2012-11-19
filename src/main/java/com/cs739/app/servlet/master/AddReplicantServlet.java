@@ -1,4 +1,4 @@
-package com.cs739.app.servlet;
+package com.cs739.app.servlet.master;
 
 import java.io.IOException;
 import java.util.List;
