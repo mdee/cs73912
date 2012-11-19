@@ -23,18 +23,18 @@ import com.cs739.app.util.AppConstants;
  * Right now, it's job is to make sure that enough {@link Replicant}
  * machines have contacted the master before requests can pass through.
  * @author MDee
+ * 
  */
-public class PlopboxFilter implements Filter {
+public class PlopboxMasterFilter implements Filter {
 
     protected FilterConfig config;
     private ServletContext context;
     
     private static final Logger log = LoggerFactory
-            .getLogger(PlopboxFilter.class);
+            .getLogger(PlopboxMasterFilter.class);
     
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        // TODO Auto-generated method stub
         this.config = filterConfig;
         context = config.getServletContext();
     }

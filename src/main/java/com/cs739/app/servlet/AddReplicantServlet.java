@@ -34,7 +34,7 @@ public class AddReplicantServlet extends HttpServlet {
      * Adds a new {@link Replicant} to the master's pool
      */
     @SuppressWarnings("unchecked")
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         
         String host = request.getRemoteHost();
         int port = request.getRemotePort();
@@ -42,17 +42,24 @@ public class AddReplicantServlet extends HttpServlet {
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
         
+        // Get the files that this replicant has
+        String[] filesList = request.getParameterValues(AppConstants.REPLICANT_FILES_LIST);
+        
         int numReplicants = (Integer) context.getAttribute(AppConstants.NUM_REPLICANTS);
         List<Replicant> replicants = (List<Replicant>) context.getAttribute(AppConstants.REPLICANTS);
         
+        // TODO: Necessary to check if this host & port are already in the master's view?
+        numReplicants += 1;
         Replicant replicant = new Replicant();
         replicant.setHost(host);
         replicant.setPort(port);
+        replicant.setId("R_" + numReplicants);
         
         log.debug("Replicant added");
         
-        numReplicants += 1;
         replicants.add(replicant);
+        
+        // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
         
         context.setAttribute(AppConstants.NUM_REPLICANTS, numReplicants);
         context.setAttribute(AppConstants.REPLICANTS, replicants);

@@ -13,4 +13,6 @@ public class AppConstants {
     public static final String ADD_REPLICANT_URI = "pb/addReplicant";
     
     public static final String REPLICANTS = "REPLICANTS";
+    
+    public static final String REPLICANT_FILES_LIST = "REPLICANT_FILES_LIST";
 }

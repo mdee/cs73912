@@ -11,9 +11,10 @@ import com.google.appengine.api.datastore.Blob;
 /**
  * Basic model to represent an image file.
  * @author MDee
+ * 
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION) 
-public class PlopboxImage {
+public class PlopboxImage implements IPlopboxFile {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -23,21 +24,21 @@ public class PlopboxImage {
     private String name;
 
     @Persistent
-    Blob image;
+    Blob data;
 
     public PlopboxImage() {}
     
-    public PlopboxImage(String name, Blob image) {
+    public PlopboxImage(String name, Blob data) {
         this.name = name; 
-        this.image = image;
+        this.data = data;
     }
 
-    public Blob getImage() { 
-        return image; 
+    public Blob getData() { 
+        return data; 
     }
     
-    public void setImage(Blob image) { 
-        this.image = image; 
+    public void setData(Blob data) { 
+        this.data = data; 
     }
     
     public Long getId() {
@@ -46,6 +47,16 @@ public class PlopboxImage {
     
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
