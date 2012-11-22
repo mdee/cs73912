@@ -15,4 +15,12 @@ public class AppConstants {
     public static final String REPLICANTS = "REPLICANTS";
     
     public static final String REPLICANT_FILES_LIST = "REPLICANT_FILES_LIST";
+    
+    public static enum ReplicantState {
+        AVAILABLE,
+        BUSY,
+        UNAVAILABLE;
+    };
+    
+    public static final String REPLICANT_ID_PREFIX = "R_";
 }

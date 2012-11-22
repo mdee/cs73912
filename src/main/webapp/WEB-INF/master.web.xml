@@ -24,6 +24,12 @@
       com.cs739.app.servlet.master.AddReplicantServlet
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.UploadServlet
+    </servlet-class>
+  </servlet>
 
   <!-- Servlet Mappings -->
   <servlet-mapping>
@@ -37,6 +43,10 @@
   <servlet-mapping>
     <servlet-name>AddReplicantServlet</servlet-name>
     <url-pattern>/pb/addReplicant</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/pb/upload</url-pattern>
   </servlet-mapping>
     
   <!-- LISTNERZ -->

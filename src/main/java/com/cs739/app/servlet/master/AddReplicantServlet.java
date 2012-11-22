@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.Replicant;
+import com.cs739.app.service.master.ReplicantService;
 import com.cs739.app.util.AppConstants;
 
 /**
@@ -50,11 +51,13 @@ public class AddReplicantServlet extends HttpServlet {
         
         // TODO: Necessary to check if this host & port are already in the master's view?
         numReplicants += 1;
-        Replicant replicant = new Replicant();
-        replicant.setHost(host);
-        replicant.setPort(port);
-        replicant.setId("R_" + numReplicants);
         
+        String id = ReplicantService.generateReplicantId(numReplicants);
+        Replicant replicant = new Replicant(host, port, id);
+        
+        log.debug("host: " + host);
+        log.debug("port: " + port);
+        log.debug("id: " + id);
         log.debug("Replicant added");
         
         replicants.add(replicant);
