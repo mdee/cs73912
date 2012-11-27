@@ -8,7 +8,8 @@ import com.cs739.app.util.AppConstants;
 /**
  * Manages {@link Replicant} instances for the Master
  * @author MDee
- *
+ * 
+ * This file has been altered.
  */
 public class ReplicantService {
     
