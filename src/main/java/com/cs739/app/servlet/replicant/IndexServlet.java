@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.Replicant;
+import com.cs739.app.service.ImageService;
 import com.cs739.app.util.AppConstants;
 
 /**
@@ -42,7 +43,9 @@ public class IndexServlet extends HttpServlet implements ServletContextListener 
         if (log.isDebugEnabled()) {
             log.debug("doGet");
         }
-        
+        System.out.println("HEY DUDE");
+        request.setAttribute("images", ImageService.getAllImages());
+        request.setAttribute("uploadMsg", "hi dude");
         forward(request, response, "index.jsp");
     }
 

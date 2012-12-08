@@ -25,7 +25,7 @@
       <input type="submit" value="Create">
     </form>
   </p>
-  <h3>Upload form!</h3>
+  <h3>Upload form!!$</h3>
   <p>
     <form action="file" method="post" enctype="multipart/form-data">
       <input type="file" name="file">
@@ -33,10 +33,11 @@
     </form>
     
     <c:if test="${fn:length(images) > 0}">
-      <b>THERE'S IMAGES</b>
+      <b>THERE'S IMAGESZ DUDE</b>
       <c:forEach var="image" items="${images}">
         <c:set var="anchorId" value="${image.id}"/>
-        <a href="/image/<c:out value="${image.id}"/>"><c:out value="${image.name}"/></a>
+        <a href="/pb/image?id=<c:out value="${image.id}"/>"><c:out value="${image.name}"/></a>
+        <br>
       </c:forEach>
     </c:if>
     

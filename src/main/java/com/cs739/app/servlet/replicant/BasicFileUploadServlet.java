@@ -3,7 +3,6 @@ package com.cs739.app.servlet.replicant;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
