@@ -84,7 +84,7 @@ public class IndexServlet extends HttpServlet implements ServletContextListener 
     public void contextInitialized(ServletContextEvent contextEvent) {
         log.info("Context Created");
         context = contextEvent.getServletContext();
-        // set up vars
+        // set up replicant vars
         context.setAttribute(AppConstants.NUM_REPLICANTS, 0);
         context.setAttribute(AppConstants.REPLICANTS, new ArrayList<Replicant>());
        

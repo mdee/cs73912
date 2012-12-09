@@ -1,5 +1,8 @@
 package com.cs739.app.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class to hold constants. Most of them are 
  * likely keys to access attributes within the servlet context.
@@ -15,6 +18,8 @@ public class AppConstants {
     public static final String REPLICANTS = "REPLICANTS";
     
     public static final String REPLICANT_FILES_LIST = "REPLICANT_FILES_LIST";
+    
+    public static final List<Pair<String, String>> OPEN_SESSION_LIST = new ArrayList<Pair<String, String> >();
     
     public static enum ReplicantState {
         AVAILABLE,
