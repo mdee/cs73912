@@ -25,6 +25,9 @@ public class PlopboxImage implements IPlopboxFile {
 
     @Persistent
     Blob data;
+    
+    //@Persistent
+    
 
     public PlopboxImage() {}
     

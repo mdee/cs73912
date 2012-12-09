@@ -18,6 +18,7 @@ public class ImageServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
+    	
         // Assuming that a GET request is for a particular image to be displayed in browser
         String id = request.getParameter("id");
         PlopboxImage image = ImageService.getImageWithId(new Long(id)); 

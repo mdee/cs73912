@@ -27,7 +27,7 @@
   </p>
   <h3>Upload form!!$</h3>
   <p>
-    <form action="file" method="post" enctype="multipart/form-data">
+    <form action="upload?userID=1&fileID=5" method="post" enctype="multipart/form-data">
       <input type="file" name="file">
       <input type="submit" value="UPLOAD">
     </form>
