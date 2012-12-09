@@ -18,6 +18,18 @@
       com.cs739.app.servlet.replicant.BasicFileUploadServlet
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PrepareServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.PrepareServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.ImageServlet
+    </servlet-class>
+  </servlet>
 
   <!-- Servlet Mappings -->
   <servlet-mapping>
@@ -26,7 +38,15 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>BasicFileUploadServlet</servlet-name>
-    <url-pattern>/pb/file</url-pattern>
+    <url-pattern>/pb/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PrepareServlet</servlet-name>
+    <url-pattern>/pb/prepare</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageServlet</servlet-name>
+    <url-pattern>/pb/image</url-pattern>
   </servlet-mapping>
     
   <!-- LISTNERZ -->

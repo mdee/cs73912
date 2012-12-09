@@ -29,11 +29,11 @@ public class ImageService {
         return ids;
     }
     
-    public static PlopboxImage getImageWithId(String idParam) {
+    public static PlopboxImage getImageWithId(Long idParam) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
-        Query q = pm.newQuery(PlopboxImage.class, "id == idParam");
-        q.declareParameters("String idParam");
-        PlopboxImage image = (PlopboxImage) q.execute(idParam);
+//        Query q = pm.newQuery(PlopboxImage.class, "id == idParam");
+//        q.declareParameters("String idParam");
+        PlopboxImage image = pm.getObjectById(PlopboxImage.class, idParam);
         return image;
     }
     

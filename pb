@@ -4,7 +4,7 @@ function debug {
 
 function compile {
   cp src/main/webapp/WEB-INF/$1.web.xml src/main/webapp/WEB-INF/web.xml
-  mvn clean verify
+  mvn verify
 }
 
 function run {
