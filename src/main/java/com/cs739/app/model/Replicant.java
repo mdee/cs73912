@@ -1,7 +1,10 @@
 package com.cs739.app.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 
 import com.cs739.app.util.AppConstants.ReplicantState;
@@ -22,12 +25,14 @@ public class Replicant implements Serializable {
     private int port;
     private String id;
     private ReplicantState state;
+    private List<String> files;
     
     public Replicant(String host, int port, String id) {
         this.host = host;
         this.port = port;
         this.id = id;
         this.state = ReplicantState.AVAILABLE;
+        this.files = new ArrayList<String>();
     }
     
     // Maps some sort of String ID to the actual file
@@ -53,9 +58,15 @@ public class Replicant implements Serializable {
         this.state = state;
     }
 
-    public void setFiles(Map<String, IPlopboxFile> filesMap) {
-        this.filesMap = filesMap;
+    //public void setFiles(Map<String, IPlopboxFile> filesMap) {
+       // this.filesMap = filesMap;
+    //}
+    
+    public void setFiles(String[] files){
+    	this.files.addAll(Arrays.asList(files));
     }
+    
+    // need helper functions for finding files etc
 
     public String getId() {
         return id;

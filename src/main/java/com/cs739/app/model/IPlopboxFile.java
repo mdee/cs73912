@@ -9,9 +9,9 @@ import com.google.appengine.api.datastore.Blob;
  */
 public interface IPlopboxFile {
 
-    public Long getId();
+    public String getId();
 
-    public void setId(Long id);
+    public void setId(String id);
 
     public String getName();
 

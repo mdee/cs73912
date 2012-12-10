@@ -31,7 +31,7 @@ import com.cs739.app.server.PMF;
 import com.cs739.app.util.*;
 import com.google.appengine.api.datastore.Blob;
 
-public class BasicFileUploadServlet extends HttpServlet {
+public class RenameServlet extends HttpServlet {
 
     private static final String PNG = "image/png";
     private static final String JPG = "image/jpeg";
@@ -41,40 +41,31 @@ public class BasicFileUploadServlet extends HttpServlet {
      */
     private static final long serialVersionUID = 3051023392056859395L;
     private static final Logger log = LoggerFactory
-            .getLogger(BasicFileUploadServlet.class);
+            .getLogger(RenameServlet.class);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (log.isDebugEnabled()) {
             log.debug("doGet");
         }
-        request.setAttribute("uploadMsg", "hi dude");
-        forward(request, response, "index.jsp");
-    }
-
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (log.isDebugEnabled()) {
-            log.debug("doPost -- YOU IS UPLOADING");
-        }
-        
         PrintWriter out = response.getWriter();
         response.setContentType( "text/html" ); 
-        ServletFileUpload upload = new ServletFileUpload();
         out.println("<HTML>");
         if (!request.getParameterNames().hasMoreElements()) {
-        	out.println("<HEAD><TITLE>UploadServlet (no args)</TITLE></HEAD>");
+        	out.println("<HEAD><TITLE>DeleteeServlet (no args)</TITLE></HEAD>");
             out.println("<BODY>");
-            out.println("<H1>UploadServlet</H1>");
+            out.println("<H1>DeleteServlet</H1>");
             out.println("No UserID or FileID was specified");
 
         }else {
         	java.util.Enumeration paramNames = request.getParameterNames();
             String userID = (String)paramNames.nextElement();
             String fileID = (String)paramNames.nextElement();
+            String fileName = (String)paramNames.nextElement();
             out.println(userID + " = " + request.getParameter("userID") + "<BR>");
             out.println(fileID + " = " + request.getParameter("fileID") + "<BR>");
-            out.println("Attempting to upload with above credentials<BR>");
+            out.println(fileName + " = " + request.getParameter("fileName") + "<BR>");
+            out.println("Attempting to delete with above credentials<BR>");
             Pair pair = new Pair(request.getParameter("userID"), request.getParameter("fileID"));
             
             Iterator it=AppConstants.OPEN_SESSION_LIST.iterator();
@@ -89,42 +80,28 @@ public class BasicFileUploadServlet extends HttpServlet {
             if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
             	out.println("Invalid Request, you must get authority from the master first!");
             }else{
+            	PersistenceManager pm = PMF.get().getPersistenceManager();
 		        try {
-		            FileItemIterator fileIter = upload.getItemIterator(request);
-		            while (fileIter.hasNext()) {
-		                FileItemStream item = fileIter.next();
-		                InputStream stream = item.openStream();
-		                if (item.isFormField()) {
-		                    log.warn("Got a form field: " + item.getFieldName());
-		                } else {
-		                    log.warn("Got an uploaded file: " + item.getFieldName() +
-		                            ", name = " + item.getName());
-		                }
-		                
-		                // Is it an image?
-		                if (item.getContentType().equals(PNG) || item.getContentType().equals(JPG)) {
-		                    Blob imageBlob = new Blob(IOUtils.toByteArray(stream));
-		                    PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, request.getParameter("fileID"));
-		                    PersistenceManager pm = PMF.get().getPersistenceManager();
-		                    pm.makePersistent(newImage);
-		                    pm.close();
-		                }
-		                // This code iterates over dem bytes
-		                //int len;
-		                //byte[] buffer = new byte[8192];
-		                //while ((len = stream.read(buffer, 0, buffer.length)) != -1) {
-		                //  response.getOutputStream().write(buffer, 0, len);
-		                //}
-		            }
+		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, request.getParameter("fileID"));
+		            image.setName(request.getParameter("fileName"));
 		            AppConstants.OPEN_SESSION_LIST.remove(pair);
-		            out.println("Success!!<BR>");
-		        } catch (FileUploadException e) {
-		            // TODO Auto-generated catch block
-		            e.printStackTrace();
+		            out.println("Renamed!<BR>");
+		        } finally {
+		        	pm.close();
 		        }
             }
         }
         out.println("</BODY></HTML>");
+        
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (log.isDebugEnabled()) {
+            log.debug("doPost -- YOU IS DELETING");
+        }
+        
+        forward(request, response, "index.jsp");
     }
 
     protected void forward(HttpServletRequest request,

@@ -19,7 +19,7 @@ public class AppConstants {
     
     public static final String REPLICANT_FILES_LIST = "REPLICANT_FILES_LIST";
     
-    public static final List<Pair<String, String>> OPEN_SESSION_LIST = new ArrayList<Pair<String, String> >();
+    public static final ArrayList<Pair<String, String> > OPEN_SESSION_LIST = new ArrayList<Pair<String, String> >();
     
     public static enum ReplicantState {
         AVAILABLE,

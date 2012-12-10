@@ -3,13 +3,17 @@ package com.cs739.app.servlet.replicant;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -20,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.PlopboxImage;
+import com.cs739.app.model.Replicant;
 import com.cs739.app.server.PMF;
 import com.google.appengine.api.datastore.Blob;
 import com.cs739.app.util.*;
@@ -41,7 +46,9 @@ public class PrepareServlet extends HttpServlet {
         if (log.isDebugEnabled()) {
             log.debug("doGet");
         }
-        //request.setAttribute("uploadMsg", "hi dude");
+        HttpSession session = request.getSession();
+        ServletContext context = session.getServletContext();
+        
         PrintWriter out = response.getWriter();
         response.setContentType( "text/html" ); 
         
@@ -59,7 +66,8 @@ public class PrepareServlet extends HttpServlet {
             String fileID = (String)paramNames.nextElement();
             out.println(userID + " = " + request.getParameter(userID) + "<BR>");
             out.println(fileID + " = " + request.getParameter(fileID) + "<BR>");
-            Pair pair = new Pair(request.getParameter(userID), request.getParameter(fileID));
+            Pair pair = new Pair(request.getParameter(userID), request.getParameter(fileID));        
+
             AppConstants.OPEN_SESSION_LIST.add(pair);
             out.println("Above pair was added to acceptable sessions");
         }

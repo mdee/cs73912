@@ -17,8 +17,10 @@ import com.google.appengine.api.datastore.Blob;
 public class PlopboxImage implements IPlopboxFile {
     
     @PrimaryKey
-    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-    private Long id;
+    private String id;
+    
+    @Persistent
+    private String fileID;
 
     @Persistent
     private String name;
@@ -31,9 +33,11 @@ public class PlopboxImage implements IPlopboxFile {
 
     public PlopboxImage() {}
     
-    public PlopboxImage(String name, Blob data) {
+    public PlopboxImage(String name, Blob data, String fileID) {
+    	this.fileID = fileID;
         this.name = name; 
         this.data = data;
+        this.id = fileID;
     }
 
     public Blob getData() { 
@@ -44,7 +48,7 @@ public class PlopboxImage implements IPlopboxFile {
         this.data = data; 
     }
     
-    public Long getId() {
+    public String getId() {
         return id;
     }
     
@@ -53,7 +57,7 @@ public class PlopboxImage implements IPlopboxFile {
     }
 
     @Override
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
