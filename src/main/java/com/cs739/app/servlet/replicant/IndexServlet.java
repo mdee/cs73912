@@ -21,15 +21,13 @@ import org.slf4j.LoggerFactory;
 import com.cs739.app.model.Replicant;
 import com.cs739.app.service.ImageService;
 import com.cs739.app.util.AppConstants;
-import com.cs739.app.util.Pair;
+import com.cs739.app.util.AppConstants.ReplicantPages;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -62,7 +60,7 @@ public class IndexServlet extends HttpServlet implements ServletContextListener 
         System.out.println("HEY DUDE");
         request.setAttribute("images", ImageService.getAllImages());
         request.setAttribute("uploadMsg", "hi dude");
-        forward(request, response, "index.jsp");
+        forward(request, response, ReplicantPages.INDEX.toString());
     }
 
     @Override
@@ -71,6 +69,7 @@ public class IndexServlet extends HttpServlet implements ServletContextListener 
         if (log.isDebugEnabled()) {
             log.debug("doPost");
         }
+        // TODO: Is this necessary?
         response.sendRedirect("index");
     }
 

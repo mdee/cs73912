@@ -29,6 +29,7 @@ import com.cs739.app.model.PlopboxImage;
 import com.cs739.app.model.Replicant;
 import com.cs739.app.server.PMF;
 import com.cs739.app.util.*;
+import com.cs739.app.util.AppConstants.ReplicantPages;
 import com.google.appengine.api.datastore.Blob;
 
 public class DeleteServlet extends HttpServlet {
@@ -99,7 +100,7 @@ public class DeleteServlet extends HttpServlet {
             log.debug("doPost -- YOU IS DELETING");
         }
         
-        forward(request, response, "index.jsp");
+        forward(request, response, ReplicantPages.INDEX.toString());
     }
 
     protected void forward(HttpServletRequest request,

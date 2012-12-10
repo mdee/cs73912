@@ -29,6 +29,7 @@ import com.cs739.app.model.PlopboxImage;
 import com.cs739.app.model.Replicant;
 import com.cs739.app.server.PMF;
 import com.cs739.app.util.*;
+import com.cs739.app.util.AppConstants.ReplicantPages;
 import com.google.appengine.api.datastore.Blob;
 
 public class BasicFileUploadServlet extends HttpServlet {
@@ -49,7 +50,7 @@ public class BasicFileUploadServlet extends HttpServlet {
             log.debug("doGet");
         }
         request.setAttribute("uploadMsg", "hi dude");
-        forward(request, response, "index.jsp");
+        forward(request, response, ReplicantPages.INDEX.toString());
     }
 
     @Override

@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>Welcome</title>
+  <link type="text/css" rel="stylesheet" href="/css/test.css" />
 </head>
 <body>
   <p>

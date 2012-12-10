@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cs739.app.util.AppConstants.MasterPages;
+
 /**
  * If a request is received and the number of {@link Replicant} machines is not 
  * high enough (signaling an uninitialized state), it is forwarded here.
@@ -24,7 +26,7 @@ public class UninitializedServlet extends HttpServlet {
             .getLogger(UninitializedServlet.class);
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        forward(request, response, "uninitialized.jsp");
+        forward(request, response, MasterPages.UNINITIALIZED.toString());
     }
     
     /**

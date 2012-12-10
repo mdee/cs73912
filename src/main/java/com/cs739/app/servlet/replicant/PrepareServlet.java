@@ -1,12 +1,9 @@
 package com.cs739.app.servlet.replicant;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Enumeration;
 
-import javax.jdo.PersistenceManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,19 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.cs739.app.model.PlopboxImage;
-import com.cs739.app.model.Replicant;
-import com.cs739.app.server.PMF;
-import com.google.appengine.api.datastore.Blob;
-import com.cs739.app.util.*;
+import com.cs739.app.util.AppConstants;
+import com.cs739.app.util.Pair;
 
 public class PrepareServlet extends HttpServlet {
 
@@ -41,6 +30,7 @@ public class PrepareServlet extends HttpServlet {
     private static final Logger log = LoggerFactory
             .getLogger(PrepareServlet.class);
 
+    @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (log.isDebugEnabled()) {
@@ -61,7 +51,7 @@ public class PrepareServlet extends HttpServlet {
             out.println("No UserID or FileID was specified");
 
         }else {
-        	java.util.Enumeration paramNames = request.getParameterNames();
+        	Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
             String userID = (String)paramNames.nextElement();
             String fileID = (String)paramNames.nextElement();
             out.println(userID + " = " + request.getParameter(userID) + "<BR>");
@@ -74,6 +64,7 @@ public class PrepareServlet extends HttpServlet {
         out.println("</BODY></HTML>");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (log.isDebugEnabled()) {
@@ -90,9 +81,9 @@ public class PrepareServlet extends HttpServlet {
             out.println("No UserID or FileID was specified");
 
         }else {
-        	java.util.Enumeration paramNames = request.getParameterNames();
+        	Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
             while(paramNames.hasMoreElements()) {
-              String parm = (String)paramNames.nextElement();
+              String parm = paramNames.nextElement();
               out.println(parm + " = " + request.getParameter(parm) + "<BR>"); 
             }      
         }

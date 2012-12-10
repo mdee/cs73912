@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.Replicant;
 import com.cs739.app.util.AppConstants;
+import com.cs739.app.util.AppConstants.MasterPages;
 
 /**
  * Main master endpoint right now, can handle image uploads.
@@ -43,7 +44,7 @@ public class IndexServlet extends HttpServlet implements ServletContextListener 
             log.debug("doGet");
         }
         
-        forward(request, response, "index.jsp");
+        forward(request, response, MasterPages.INDEX.toString());
     }
 
     @Override

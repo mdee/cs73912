@@ -1,6 +1,5 @@
 package com.cs739.app.model;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -17,7 +16,7 @@ import com.google.appengine.api.datastore.Blob;
 public class PlopboxImage implements IPlopboxFile {
     
     @PrimaryKey
-    private String id;
+    private Long id;
     
     @Persistent
     private String fileID;
@@ -30,14 +29,13 @@ public class PlopboxImage implements IPlopboxFile {
     
     //@Persistent
     
-
     public PlopboxImage() {}
     
     public PlopboxImage(String name, Blob data, String fileID) {
-    	this.fileID = fileID;
+    	this.setFileID(fileID);
         this.name = name; 
         this.data = data;
-        this.id = fileID;
+        this.id = new Long(fileID);
     }
 
     public Blob getData() { 
@@ -48,7 +46,7 @@ public class PlopboxImage implements IPlopboxFile {
         this.data = data; 
     }
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
     
@@ -57,13 +55,21 @@ public class PlopboxImage implements IPlopboxFile {
     }
 
     @Override
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFileID() {
+        return fileID;
+    }
+
+    public void setFileID(String fileID) {
+        this.fileID = fileID;
     }
 
 }

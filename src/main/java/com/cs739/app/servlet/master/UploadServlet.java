@@ -27,6 +27,7 @@ public class UploadServlet extends HttpServlet {
      */
     private static final long serialVersionUID = -8809227215706883599L;
     
+    @SuppressWarnings("unchecked")
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         
