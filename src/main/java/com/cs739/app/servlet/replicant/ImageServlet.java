@@ -21,7 +21,7 @@ public class ImageServlet extends HttpServlet {
     	
         // Assuming that a GET request is for a particular image to be displayed in browser
         String id = request.getParameter("id");
-        PlopboxImage image = ImageService.getImageWithId(new Long(id)); 
+        PlopboxImage image = ImageService.getImageWithId(id); 
         response.setContentType("image/png");
         try {
             response.getOutputStream().write(image.getData().getBytes());

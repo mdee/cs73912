@@ -13,6 +13,18 @@
     </servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>DeleteServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.DeleteServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RenameServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.RenameServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>BasicFileUploadServlet</servlet-name>
     <servlet-class>
       com.cs739.app.servlet.replicant.BasicFileUploadServlet
@@ -35,6 +47,14 @@
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/pb/index</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteServlet</servlet-name>
+    <url-pattern>/pb/delete</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RenameServlet</servlet-name>
+    <url-pattern>/pb/rename</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>BasicFileUploadServlet</servlet-name>
