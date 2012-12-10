@@ -30,6 +30,12 @@
       com.cs739.app.servlet.master.UploadServlet
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.LoginServlet
+    </servlet-class>
+  </servlet>
 
   <!-- Servlet Mappings -->
   <servlet-mapping>
@@ -47,6 +53,10 @@
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
     <url-pattern>/pb/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/pb/login</url-pattern>
   </servlet-mapping>
     
   <!-- LISTNERZ -->

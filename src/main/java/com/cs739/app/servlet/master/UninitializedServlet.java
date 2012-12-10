@@ -1,13 +1,12 @@
 package com.cs739.app.servlet.master;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants.MasterPages;
 
 /**
@@ -15,7 +14,7 @@ import com.cs739.app.util.AppConstants.MasterPages;
  * high enough (signaling an uninitialized state), it is forwarded here.
  * @author MDee
  */
-public class UninitializedServlet extends HttpServlet {
+public class UninitializedServlet extends AbstractPlopboxServlet {
     
     /**
      * 
@@ -26,27 +25,8 @@ public class UninitializedServlet extends HttpServlet {
             .getLogger(UninitializedServlet.class);
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        log.debug("Not enough replicants to start servin suckas...");
         forward(request, response, MasterPages.UNINITIALIZED.toString());
     }
     
-    /**
-     * Forwards request and response to given path. Handles any exceptions
-     * caused by forward target by printing them to logger.
-     * @param request 
-     * @param response
-     * @param path 
-     */
-    protected void forward(HttpServletRequest request,
-            HttpServletResponse response, String path) {
-        try {
-            RequestDispatcher rd = request.getRequestDispatcher(path);
-            rd.forward(request, response);
-        } catch (Throwable tr) {
-            if (log.isErrorEnabled()) {
-                log.error("Cought Exception: " + tr.getMessage());
-                log.debug("StackTrace:", tr);
-            }
-        }
-    }
-
 }

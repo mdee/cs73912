@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cs739.app.model.Replicant;
 import com.cs739.app.service.master.ReplicantService;
+import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
 import com.google.gson.Gson;
 
@@ -20,7 +20,7 @@ import com.google.gson.Gson;
  * @author MDee
  *
  */
-public class UploadServlet extends HttpServlet {
+public class UploadServlet extends AbstractPlopboxServlet {
 
     /**
      * 

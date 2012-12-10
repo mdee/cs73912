@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.Replicant;
 import com.cs739.app.service.master.ReplicantService;
+import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
 
 /**
@@ -22,7 +22,7 @@ import com.cs739.app.util.AppConstants;
  * @author MDee
  *
  */
-public class AddReplicantServlet extends HttpServlet {
+public class AddReplicantServlet extends AbstractPlopboxServlet {
     
     /**
      * 
@@ -67,7 +67,6 @@ public class AddReplicantServlet extends HttpServlet {
         replicants.add(replicant);
         
         // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
-        
         context.setAttribute(AppConstants.NUM_REPLICANTS, numReplicants);
         context.setAttribute(AppConstants.REPLICANTS, replicants);
         

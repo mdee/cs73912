@@ -2,14 +2,14 @@ package com.cs739.app.servlet.replicant;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.cs739.app.model.PlopboxImage;
 import com.cs739.app.service.ImageService;
+import com.cs739.app.servlet.AbstractPlopboxServlet;
 
-public class ImageServlet extends HttpServlet {
+public class ImageServlet extends AbstractPlopboxServlet {
 
     /**
      * 

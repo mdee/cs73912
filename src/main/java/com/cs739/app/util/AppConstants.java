@@ -50,14 +50,19 @@ public class AppConstants {
     }
     
     public static enum MasterPages {
-        INDEX {
+        LOGIN {
             public String toString() {
-                return MASTER_JSP + "index.jsp";
+                return MASTER_JSP + "login.jsp";
             }
         },
         UNINITIALIZED {
             public String toString() {
                 return MASTER_JSP + "uninitialized.jsp";
+            }
+        },
+        HOME {
+            public String toString() {
+                return MASTER_JSP + "home.jsp";
             }
         }
     }
