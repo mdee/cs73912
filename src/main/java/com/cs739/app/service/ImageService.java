@@ -24,12 +24,12 @@ public class ImageService {
     
     public static List<String> getImageIds() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
-        Query query = pm.newQuery("select id from " + PlopboxImage.class.getName());
+        Query query = pm.newQuery("select fileID from " + PlopboxImage.class.getName());
         List<String> ids = (List<String>) query.execute();
         return ids;
     }
     
-    public static PlopboxImage getImageWithId(Long idParam) {
+    public static PlopboxImage getImageWithId(String idParam) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 //        Query q = pm.newQuery(PlopboxImage.class, "id == idParam");
 //        q.declareParameters("String idParam");

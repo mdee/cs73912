@@ -54,6 +54,10 @@ public class AddReplicantServlet extends HttpServlet {
         
         String id = ReplicantService.generateReplicantId(numReplicants);
         Replicant replicant = new Replicant(host, port, id);
+        if (filesList != null){
+        	System.out.println(filesList[0] + "\n");
+        	replicant.setFiles(filesList);
+        }
         
         log.debug("host: " + host);
         log.debug("port: " + port);

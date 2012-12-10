@@ -3,7 +3,7 @@ function debug {
 }
 
 function compile {
-  cp src/main/webapp/WEB-INF/$1.web.xml src/main/webapp/WEB-INF/web.xml
+  xcopy src/main/webapp/WEB-INF/$1.web.xml src/main/webapp/WEB-INF/web.xml
   mvn verify
 }
 
@@ -16,7 +16,7 @@ function run {
     PORT=$1
     echo "Running on port $PORT"
   fi
-  ./src/main/resources/appengine/bin/dev_appserver.sh --port=$PORT target/plopbox-1.0-SNAPSHOT
+  ./src/main/resources/appengine/bin/dev_appserver.cmd --port=$PORT target/plopbox-1.0-SNAPSHOT
 }
 
 # $2 could be a port to run on, or a word like 'master' or 'replicant'
