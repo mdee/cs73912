@@ -69,7 +69,7 @@ public class DeleteServlet extends AbstractPlopboxServlet {
             }else{
             	PersistenceManager pm = PMF.get().getPersistenceManager();
 		        try {
-		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, request.getParameter("fileID"));
+		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileID")));
 		            pm.deletePersistent(image);
 		            AppConstants.OPEN_SESSION_LIST.remove(pair);
 		            out.println("Deleted!<BR>");

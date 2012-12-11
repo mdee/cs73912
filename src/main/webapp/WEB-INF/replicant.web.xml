@@ -25,6 +25,18 @@
     </servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>ReplicateServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.ReplicateServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>GetServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.replicant.GetServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>BasicFileUploadServlet</servlet-name>
     <servlet-class>
       com.cs739.app.servlet.replicant.BasicFileUploadServlet
@@ -51,6 +63,14 @@
   <servlet-mapping>
     <servlet-name>DeleteServlet</servlet-name>
     <url-pattern>/pb/delete</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReplicateServlet</servlet-name>
+    <url-pattern>/pb/replicate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetServlet</servlet-name>
+    <url-pattern>/pb/get</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RenameServlet</servlet-name>
