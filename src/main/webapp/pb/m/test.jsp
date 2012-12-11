@@ -10,14 +10,14 @@
   <div class="container">
     <div class="row">
       <div class="span12">
-        <legend>Welcome to Plopbox!</legend>
+        <legend>This is a Plopbox test page!</legend>
       </div>
       <div class="span12">
         <blockquote>Your name is ${username}. And guess what! Your id # is ${user_id}.</blockquote>
-        <blockquote>That's tight.</blockquote>
+        <blockquote>It's still tight.</blockquote>
       </div>
       <div class="span12">
-        <span>Check out </span><a href="/pb/test">this test page</a><span> to see if your cookie info persists!</span>
+        <a href="/pb/home">Go on back home, now</a>
       </div>
     </div>
   </div>

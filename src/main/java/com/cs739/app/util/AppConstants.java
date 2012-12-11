@@ -30,6 +30,11 @@ public class AppConstants {
     
     public static final List<Pair<String, String> > OPEN_SESSION_LIST = new ArrayList<Pair<String, String> >();
     
+    // Cookie stuff
+    public static final String USERNAME = "username";
+    public static final String USER_ID = "user_id";
+    
+    
     public static enum ReplicantState {
         AVAILABLE,
         BUSY,
@@ -64,7 +69,18 @@ public class AppConstants {
             public String toString() {
                 return MASTER_JSP + "home.jsp";
             }
+        },
+        REGISTER {
+            public String toString() {
+                return MASTER_JSP + "register.jsp";
+            }
+        },
+        TEST {
+            public String toString() {
+                return MASTER_JSP + "test.jsp";
+            }
         }
+        
     }
     
     public static final String REPLICANT_ID_PREFIX = "R_";

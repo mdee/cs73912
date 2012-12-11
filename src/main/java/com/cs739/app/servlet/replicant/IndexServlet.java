@@ -50,7 +50,6 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
         if (log.isDebugEnabled()) {
             log.debug("doGet");
         }
-        System.out.println("HEY DUDE");
         request.setAttribute("images", ImageService.getAllImages());
         request.setAttribute("uploadMsg", "hi dude");
         forward(request, response, ReplicantPages.INDEX.toString());

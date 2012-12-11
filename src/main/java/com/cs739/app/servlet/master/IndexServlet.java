@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,17 +34,34 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
     private static final long serialVersionUID = 7252872348356932582L;
 
     private static final Logger log = LoggerFactory
-    .getLogger(IndexServlet.class);
+            .getLogger(IndexServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        if (log.isDebugEnabled()) {
-            log.debug("doGet");
+        log.debug("Checking for cookie...");
+        // Check for cookie, if it's set then send it home
+        Cookie[] cookies = request.getCookies();
+        String username = null, userId = null;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals(AppConstants.USERNAME)) {
+                    username = c.getValue();
+                } else if (c.getName().equals(AppConstants.USER_ID)) {
+                    userId = c.getValue();
+                }
+            }
         }
-        
-        forward(request, response, MasterPages.LOGIN.toString());
+        if (username != null && userId != null) {
+            // set them in ze cookie
+            //request.setAttribute(AppConstants.USERNAME, username);
+            //request.setAttribute(AppConstants.USER_ID, userId);
+            response.sendRedirect("home");
+        } else {
+            log.debug("Cookie info is not set -- redirecting to login");
+            response.sendRedirect("login");
+        }
     }
 
     @Override
@@ -63,7 +81,7 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
         // set up vars
         context.setAttribute(AppConstants.NUM_REPLICANTS, 0);
         context.setAttribute(AppConstants.REPLICANTS, new ArrayList<Replicant>());
-       
+
     }
     @Override
     public void contextDestroyed(ServletContextEvent contextEvent) {
