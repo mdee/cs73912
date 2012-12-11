@@ -69,7 +69,7 @@ public class RenameServlet extends AbstractPlopboxServlet {
             }else{
             	PersistenceManager pm = PMF.get().getPersistenceManager();
 		        try {
-		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, request.getParameter("fileID"));
+		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileID")));
 		            image.setName(request.getParameter("fileName"));
 		            AppConstants.OPEN_SESSION_LIST.remove(pair);
 		            out.println("Renamed!<BR>");
