@@ -1,7 +1,6 @@
 package com.cs739.app.servlet.replicant;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletOutputStream;
@@ -15,8 +14,6 @@ import com.cs739.app.model.PlopboxImage;
 import com.cs739.app.model.Replicant;
 import com.cs739.app.server.PMF;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
-import com.cs739.app.util.AppConstants;
-import com.cs739.app.util.Pair;
 import com.google.appengine.api.datastore.Blob;
 
 /**
@@ -38,19 +35,18 @@ public class GetServlet extends AbstractPlopboxServlet {
      * Adds a new {@link Replicant} to the master's pool
      * @throws IOException 
      */
-    @SuppressWarnings("unchecked")
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //PrintWriter out = response.getWriter();
-        response.setContentType( "text/html" ); 
+        response.setContentType("image/png"); 
 
 
         if (!request.getParameterNames().hasMoreElements()) {
             System.out.println("No UserID or FileID was specified");
         }else {
-            Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
+            //Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
             //String userID = paramNames.nextElement();
-            String fileID = paramNames.nextElement();
+            //String fileID = paramNames.nextElement();
 
 //            Pair pair = new Pair(request.getParameter("userId"), request.getParameter("fileId"));
 //

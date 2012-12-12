@@ -61,7 +61,8 @@ public class HomeServlet extends AbstractPlopboxServlet {
                 masterFiles.add(newFile);
                 context.setAttribute(AppConstants.MASTER_FILES_LIST, masterFiles);
                 // Now pick a replicant
-                Replicant r = ReplicantService.chooseReplicantForUpload((List<Replicant>)context.getAttribute(AppConstants.REPLICANTS));
+                List<Replicant> replicants = (List<Replicant>) context.getAttribute(AppConstants.REPLICANTS);
+                Replicant r = ReplicantService.chooseReplicantForUpload(replicants);
                 // Send it a prepare request
                 HttpClient httpClient = new DefaultHttpClient();
                 String replicantUrl = "http://" + r.getHost() + ":" + r.getPort() + "/pb/prepare?userId=" + userId + "&fileId=" + newFile.getId();
@@ -81,6 +82,9 @@ public class HomeServlet extends AbstractPlopboxServlet {
                     log.debug(file.getState() + "");
                     if (file.getOwnerId().equals(new Long(userId)) && file.getState().equals(FileState.REPLICATED)) {
                         log.debug("HEY found a file");
+                        // Set the replicant that will serve the user
+                        Replicant server = ReplicantService.chooseReplicantForDownload(file.getId().toString(), replicants);
+                        file.setLocation("http://" + server.getHost() + ":" + server.getPort() + "/pb/get?fileId=" + file.getId());
                         userFiles.add(file);
                     }
                 }

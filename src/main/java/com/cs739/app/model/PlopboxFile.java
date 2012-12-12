@@ -32,15 +32,26 @@ public class PlopboxFile {
     
     @Persistent
     private List<Long> viewerIds;
+    
+    private String location;
 
     public PlopboxFile() {}
     
     public PlopboxFile(Long ownerId) {
         this.ownerId = ownerId;
         this.state = FileState.INITIALIZED;
+        this.location = null;
     }
     
     
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public Long getOwnerId() {
         return ownerId;
     }

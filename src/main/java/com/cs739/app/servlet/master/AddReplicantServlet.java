@@ -57,8 +57,12 @@ public class AddReplicantServlet extends AbstractPlopboxServlet {
         String id = ReplicantService.generateReplicantId(numReplicants);
         Replicant replicant = new Replicant(host, Integer.parseInt(portNumber), id);
         if (filesList != null){
-            System.out.println(filesList[0] + "\n");
-            replicant.setFiles(filesList);
+            
+            for (String fileId : filesList) {
+                replicant.addFile(fileId);
+                log.debug("Adding file #" + fileId + " to replicant");
+            }
+            
         }
         log.debug("Replicant added");
         replicants.add(replicant);

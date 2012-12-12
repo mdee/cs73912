@@ -40,6 +40,8 @@ public class UserService {
         if (users.size() > 0) {
             user = users.get(0);
         }
+        // This might blow up
+        pm.close();
         return user;
     }
     

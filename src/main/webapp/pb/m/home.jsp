@@ -143,11 +143,12 @@
     </div>
   </div>
     <div class="row">
-      <div class="span12">
-        <table class="table">
+      <div class="span7">
+        <table class="table table-bordered table-striped table-hover">
           <thead>
             <tr>
               <th>Filename</th>
+              <th>Options</th>
             </tr>
           </thead>
           <c:forEach var="file" items="${user_files}">
@@ -155,9 +156,25 @@
               <td>
                 <a href="#" id="file-name" data-type="text" data-pk="${file.id}" data-url="/pb/renameFile"><c:out value="${file.name}"/></a>
               </td>
+              <td>
+                <a style="margin-right:15px;" href="javascript:void(0);" title="Preview file" class="btn btn-primary preview-file" target="_blank" data-url="${file.location}">
+                  <i class="icon-eye-open icon-white"></i>
+                </a>
+                <a style="margin-right:15px;" href="javascript:void(0);" title="Download file" class="btn btn-success download-file" target="_blank" data-url="${file.location}">
+                  <i class="icon-download icon-white"></i>
+                </a>
+                <a style="margin-right:15px;" href="javascript:void(0);" title="Delete file" class="btn btn-danger delete-file" target="_blank" data-url="${file.location}">
+                  <i class="icon-trash icon-white"></i>
+                </a>
+              </td>
             </tr>
           </c:forEach>
         </table>
+      </div>
+      <div class="span5">
+        <h4>File preview</h4>
+        <div id="preview-cont">
+        </div>
       </div>
     </div>
   </div>
@@ -186,7 +203,18 @@
   <script src="../js/blueimp/main.js"></script>
   <script>
     $('document').ready(function(){
+
       $('a#file-name').editable();
+
+      $('a.preview-file').on('click', function(){
+        var self = this;
+        var imageUrl = $(self).attr('data-url');
+        $('div#preview-cont').fadeOut(function(){
+          $('div#preview-cont').html($('<img/>').attr('src', imageUrl));  
+          $('div#preview-cont').fadeIn();
+        });
+      });
+
     });
   </script
 </body>

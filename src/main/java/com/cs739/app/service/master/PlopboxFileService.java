@@ -23,7 +23,9 @@ public class PlopboxFileService {
     public static List<PlopboxFile> getAllPlopboxFiles() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query query = pm.newQuery(PlopboxFile.class);
-        return ((List<PlopboxFile>) query.execute());
+        List<PlopboxFile> files = (List<PlopboxFile>) query.execute(); 
+        pm.close();
+        return files;
     }
     
     public static void updatePlopboxFile(PlopboxFile file) {

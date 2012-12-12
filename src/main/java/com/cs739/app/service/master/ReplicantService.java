@@ -25,6 +25,7 @@ public class ReplicantService {
         for (Replicant r : replicants) {
             if (r.isAvailable()) {
                 replicant = r;
+                break;
             }
         }
         return replicant;
@@ -43,6 +44,18 @@ public class ReplicantService {
             }
         }
         return candidates;
+    }
+    
+    public static Replicant chooseReplicantForDownload(String fileId, List<Replicant> replicants) {
+        // Yeah this is silly
+        Replicant replicant = null;
+        for (Replicant r : replicants) {
+            if (r.isAvailable() && r.getFiles().contains(fileId)) {
+                replicant = r;
+                break;
+            }
+        }
+        return replicant;
     }
     
 }
