@@ -2,14 +2,11 @@ package com.cs739.app.servlet.master;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -42,13 +39,13 @@ public class UploadServlet extends AbstractPlopboxServlet {
     private static final Logger log = LoggerFactory
             .getLogger(UploadServlet.class);
     
-    @SuppressWarnings("unchecked")
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         log.debug("DO GET");
         
-        HttpSession session = request.getSession();
-        ServletContext context = session.getServletContext();
+        //HttpSession session = request.getSession();
+        //ServletContext context = session.getServletContext();
         
 //        List<Replicant> replicants = (List<Replicant>) context.getAttribute(AppConstants.REPLICANTS);
 //        
@@ -119,7 +116,6 @@ public class UploadServlet extends AbstractPlopboxServlet {
             FileItemIterator fileIter = upload.getItemIterator(request);
             while (fileIter.hasNext()) {
                 FileItemStream item = fileIter.next();
-                InputStream stream = item.openStream();
                 if (item.isFormField()) {
                     log.warn("Got a form field: " + item.getFieldName());
                 } else {

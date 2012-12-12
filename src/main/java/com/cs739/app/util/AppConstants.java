@@ -47,6 +47,10 @@ public class AppConstants {
     public static final String REQUEST_FILE_ID = "fileId";
     public static final String REQUEST_FILE_NAME = "fileName";
     
+    public static final String RENAME_FILE_KEY = "name";
+    public static final String RENAME_FILE_PK = "pk";
+    public static final String RENAME_FILE_VALUE = "value";
+    
     
     public static enum ReplicantState {
         AVAILABLE,

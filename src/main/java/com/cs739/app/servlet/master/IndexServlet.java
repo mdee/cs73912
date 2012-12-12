@@ -3,11 +3,12 @@ package com.cs739.app.servlet.master;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.PlopboxFile;
 import com.cs739.app.model.Replicant;
+import com.cs739.app.server.PMF;
 import com.cs739.app.service.master.PlopboxFileService;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
@@ -79,6 +81,7 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
     }
 
     ServletContext context;
+    @SuppressWarnings("unchecked")
     @Override
     public void contextInitialized(ServletContextEvent contextEvent) {
         log.info("Context Created");
@@ -88,15 +91,19 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
         context.setAttribute(AppConstants.REPLICANTS, new ArrayList<Replicant>());
         
         // GAE returns a read-only List, so copy it to a modifiable one
-        List<PlopboxFile> persistedFiles = PlopboxFileService.getAllPlopboxFiles();
-        log.debug(persistedFiles.size() + "");
+        // Hack around PM exceptions...
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        Query query = pm.newQuery(PlopboxFile.class);
+        List<PlopboxFile> persistedFiles = (List<PlopboxFile>) query.execute(); 
+        //log.debug(persistedFiles.size() + "");
         List<PlopboxFile> filesCopy = new ArrayList<PlopboxFile>(persistedFiles);
         context.setAttribute(AppConstants.MASTER_FILES_LIST, filesCopy);
         
         // Keep a map of in-progress file Ids to replicants
         Map<Long, Replicant> fileProgressReplicantMap = new HashMap<Long, Replicant>();
         context.setAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP, fileProgressReplicantMap);
-
+        // Close the PM
+        pm.close();
     }
     @Override
     public void contextDestroyed(ServletContextEvent contextEvent) {

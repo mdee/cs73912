@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.util.AppConstants;
+import com.cs739.app.util.AppConstants.MasterPages;
 
 /**
  * Every request passes through this filter.
@@ -56,7 +57,7 @@ public class PlopboxMasterFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             log.info("Not enough replicants!");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("uninitialized.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher(MasterPages.UNINITIALIZED.toString());
             dispatcher.forward(request, response);
         }
     }

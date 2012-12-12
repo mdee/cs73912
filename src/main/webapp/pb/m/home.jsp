@@ -5,8 +5,8 @@
 <head>
   <title>Plopbox</title>
   <link rel="stylesheet" href="../stylesheets/bootstrap.min.css" />
+  <link rel="stylesheet" href="../stylesheets/bootstrap-editable.css">
   <!-- BEGIN BLUEIMP -->
-  
   <link rel="stylesheet" href="../stylesheets/blueimp/jquery.fileupload-ui.css">
   <!-- END BLUEIMP -->
 </head>
@@ -33,20 +33,20 @@
         <div class="span7">
           <!-- The fileinput-button span is used to style the file input field as button -->
           <span class="btn btn-success fileinput-button">
-            
+            <i class="icon-plus icon-white"></i>
             <span>Add file...</span>
             <input type="file" name="files[]" multiple>
           </span>
           <button type="submit" class="btn btn-primary start">
-            
+            <i class="icon-upload icon-white"></i>
             <span>Start upload</span>
           </button>
           <button type="reset" class="btn btn-warning cancel">
-            
+            <i class="icon-ban-circle icon-white"></i>
             <span>Cancel upload</span>
           </button>
           <button type="button" class="btn btn-danger delete">
-           
+            <i class="icon-trash icon-white"></i>
             <span>Delete</span>
           </button>
           <input type="checkbox" class="toggle">
@@ -145,7 +145,6 @@
     <div class="row">
       <div class="span12">
         <table class="table">
-          <caption>Caption</caption>
           <thead>
             <tr>
               <th>Filename</th>
@@ -153,17 +152,18 @@
           </thead>
           <c:forEach var="file" items="${user_files}">
             <tr>
-              <td><c:out value="${file.name}"/></td>
+              <td>
+                <a href="#" id="file-name" data-type="text" data-pk="${file.id}" data-url="/pb/renameFile"><c:out value="${file.name}"/></a>
+              </td>
             </tr>
           </c:forEach>
         </table>
       </div>
     </div>
   </div>
-
-
   <script src="../js/jquery-1.8.3.min.js"></script>
   <script src="../js/bootstrap.min.js"></script> 
+  <script src="../js/bootstrap-editable-inline.min.js"></script>
   <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
   <!-- The Templates plugin is included to render the upload/download listings -->
   <script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
@@ -184,5 +184,10 @@
   <script src="../js/blueimp/jquery.fileupload-ui.js"></script>
   <!-- The main application script -->
   <script src="../js/blueimp/main.js"></script>
+  <script>
+    $('document').ready(function(){
+      $('a#file-name').editable();
+    });
+  </script
 </body>
 </html>

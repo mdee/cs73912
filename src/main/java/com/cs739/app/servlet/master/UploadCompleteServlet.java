@@ -48,7 +48,7 @@ public class UploadCompleteServlet extends AbstractPlopboxServlet {
         ServletContext context = request.getSession().getServletContext();
         // Need to get the file that is referenced and change its status to uploaded
         String fileId = request.getParameter(AppConstants.REQUEST_FILE_ID);
-        String userId = request.getParameter(AppConstants.REQUEST_USER_ID);
+        //String userId = request.getParameter(AppConstants.REQUEST_USER_ID);
         String fileName = request.getParameter(AppConstants.REQUEST_FILE_NAME);
         
         List<PlopboxFile> masterFiles = (List<PlopboxFile>) context.getAttribute(AppConstants.MASTER_FILES_LIST);
