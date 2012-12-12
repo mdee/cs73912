@@ -3,7 +3,9 @@ package com.cs739.app.servlet.replicant;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
@@ -15,6 +17,14 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,13 +75,11 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             out.println("No UserID or FileID was specified");
 
         }else {
-            String fileId = request.getParameter(AppConstants.REQUEST_FILE_ID);
-            String userId = request.getParameter(AppConstants.REQUEST_USER_ID);
-            
-            out.println(userId + " = " + request.getParameter("userId") + "<BR>");
-            out.println(fileId + " = " + request.getParameter("fileId") + "<BR>");
+
+            out.println("userId" + " = " + request.getParameter("userId") + "<BR>");
+            out.println("fileId" + " = " + request.getParameter("fileId") + "<BR>");
             out.println("Attempting to upload with above credentials<BR>");
-            Pair<String,String> pair = new Pair<String,String>(userId, fileId);
+            Pair<String,String> pair = new Pair<String,String>(request.getParameter("userId"), request.getParameter("fileId"));
             Iterator it = AppConstants.OPEN_SESSION_LIST.iterator();
             out.println("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
             log.debug("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
@@ -84,6 +92,7 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
                 out.println("Invalid Request, you must get authority from the master first!");
             }else{
+            	HttpClient httpclient = new DefaultHttpClient();
                 try {
                     log.debug("inside try");
                     FileItemIterator fileIter = upload.getItemIterator(request);
@@ -104,23 +113,46 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
                         if (item.getContentType().equals(PNG) || item.getContentType().equals(JPG)) {
                             byte[] bytes = IOUtils.toByteArray(stream);
                             Blob imageBlob = new Blob(bytes);
-                            PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, fileId);
+                            PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, request.getParameter("fileId"));
                             PersistenceManager pm = PMF.get().getPersistenceManager();
                             pm.makePersistent(newImage);
                             pm.close();
                         }
-                        // This code iterates over dem bytes
-                        //int len;
-                        //byte[] buffer = new byte[8192];
-                        //while ((len = stream.read(buffer, 0, buffer.length)) != -1) {
-                        //  response.getOutputStream().write(buffer, 0, len);
-                        //}
+                        
+                        
                     }
                     AppConstants.OPEN_SESSION_LIST.remove(pair);
-                    out.println("Success!!<BR>");
+                    
+                    // Prepare a post to master letting it know of success
+                    
+                   
+                        HttpPost httpPost = new HttpPost("http://localhost:1234/pb/uploadComplete");
+                        //MultipartEntity entity = new MultipartEntity();
+
+                       
+                        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+                        
+                        nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_USER_ID, request.getParameter("userId")));
+                        nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_FILE_ID, request.getParameter("fileId")));
+                            
+                        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                           
+                        ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                        String responseBody = httpclient.execute(httpPost, responseHandler);
+                        
+                        System.out.println("----------------------------------------");
+                        System.out.println(responseBody);
+                        System.out.println("----------------------------------------");
+
+                    
+                    
+                        out.println("Success!!<BR>");
+                   
+                	    
                 } catch (FileUploadException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                	e.printStackTrace();
+                } finally {
+            	     httpclient.getConnectionManager().shutdown();
                 }
             }
         }

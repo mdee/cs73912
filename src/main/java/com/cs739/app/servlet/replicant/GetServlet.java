@@ -53,7 +53,7 @@ public class GetServlet extends AbstractPlopboxServlet {
             String userID = paramNames.nextElement();
             String fileID = paramNames.nextElement();
 
-            Pair pair = new Pair(request.getParameter("userID"), request.getParameter("fileID"));
+            Pair pair = new Pair(request.getParameter("userId"), request.getParameter("fileId"));
 
 
             if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
@@ -61,7 +61,7 @@ public class GetServlet extends AbstractPlopboxServlet {
             }else{
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
-                    PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileID")));
+                    PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileId")));
                     ServletOutputStream output = response.getOutputStream();
 
                     Blob imageBlob = image.getData();
