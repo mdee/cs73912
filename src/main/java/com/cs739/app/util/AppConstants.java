@@ -41,9 +41,11 @@ public class AppConstants {
     // Cookie stuff
     public static final String USERNAME = "username";
     public static final String USER_ID = "user_id";
+    public static final String USER_FILES = "user_files";
     
     public static final String REQUEST_USER_ID = "userId";
     public static final String REQUEST_FILE_ID = "fileId";
+    public static final String REQUEST_FILE_NAME = "fileName";
     
     
     public static enum ReplicantState {

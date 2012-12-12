@@ -60,14 +60,14 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
     @SuppressWarnings("unchecked")
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        
+
         log.debug("REPLICANT RECEIVED SOMETHING!");
         log.debug("doPost -- YOU IS UPLOADING");
         PrintWriter out = response.getWriter();
         response.setContentType("text/html"); 
         ServletFileUpload upload = new ServletFileUpload();
         out.println("<HTML>");
-        
+
         if (!request.getParameterNames().hasMoreElements()) {
             out.println("<HEAD><TITLE>UploadServlet (no args)</TITLE></HEAD>");
             out.println("<BODY>");
@@ -92,16 +92,17 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
                 out.println("Invalid Request, you must get authority from the master first!");
             }else{
-            	HttpClient httpclient = new DefaultHttpClient();
+                HttpClient httpclient = new DefaultHttpClient();
+                String fileName = null;
                 try {
                     log.debug("inside try");
                     FileItemIterator fileIter = upload.getItemIterator(request);
                     while (fileIter.hasNext()) {
                         log.debug("FILESS");
                         FileItemStream item = fileIter.next();
-                        
+
                         InputStream stream = item.openStream();
-                        
+                        fileName = item.getName();
                         if (item.isFormField()) {
                             log.warn("Got a form field: " + item.getFieldName());
                         } else {
@@ -113,54 +114,51 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
                         if (item.getContentType().equals(PNG) || item.getContentType().equals(JPG)) {
                             byte[] bytes = IOUtils.toByteArray(stream);
                             Blob imageBlob = new Blob(bytes);
+                            
                             PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, request.getParameter("fileId"));
                             PersistenceManager pm = PMF.get().getPersistenceManager();
                             pm.makePersistent(newImage);
                             pm.close();
                         }
-                        
-                        
+
                     }
                     AppConstants.OPEN_SESSION_LIST.remove(pair);
-                    
+
                     // Prepare a post to master letting it know of success
-                    
-                   
-                        HttpPost httpPost = new HttpPost("http://localhost:1234/pb/uploadComplete");
-                        //MultipartEntity entity = new MultipartEntity();
+                    HttpPost httpPost = new HttpPost("http://localhost:1234/pb/uploadComplete");
 
-                       
-                        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                        
-                        nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_USER_ID, request.getParameter("userId")));
-                        nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_FILE_ID, request.getParameter("fileId")));
-                            
-                        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                           
-                        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                        String responseBody = httpclient.execute(httpPost, responseHandler);
-                        log.debug("hey man");
-                        System.out.println("----------------------------------------");
-                        System.out.println(responseBody);
-                        System.out.println("----------------------------------------");
+                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 
+                    nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_USER_ID, request.getParameter("userId")));
+                    nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_FILE_ID, request.getParameter("fileId")));
+                    nameValuePairs.add(new BasicNameValuePair(AppConstants.REQUEST_FILE_NAME, fileName));
                     
-                    
-                        out.println("Success!!<BR>");
-                   
-                	    
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                    String responseBody = httpclient.execute(httpPost, responseHandler);
+                    log.debug("hey man");
+                    System.out.println("----------------------------------------");
+                    System.out.println(responseBody);
+                    System.out.println("----------------------------------------");
+
+
+
+                    out.println("Success!!<BR>");
+
+
                 } catch (FileUploadException e) {
-                	e.printStackTrace();
+                    e.printStackTrace();
                 } finally {
-            	     httpclient.getConnectionManager().shutdown();
+                    httpclient.getConnectionManager().shutdown();
                 }
             }
         }
         out.println("</BODY></HTML>");
         response.setHeader("Access-Control-Allow-Origin","*");
-        
+
     }
-    
+
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin","*");

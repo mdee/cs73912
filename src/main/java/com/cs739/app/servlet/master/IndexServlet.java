@@ -89,8 +89,8 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
         
         // GAE returns a read-only List, so copy it to a modifiable one
         List<PlopboxFile> persistedFiles = PlopboxFileService.getAllPlopboxFiles();
-        List<PlopboxFile> filesCopy = new ArrayList<PlopboxFile>();
-        Collections.copy(persistedFiles, filesCopy);
+        log.debug(persistedFiles.size() + "");
+        List<PlopboxFile> filesCopy = new ArrayList<PlopboxFile>(persistedFiles);
         context.setAttribute(AppConstants.MASTER_FILES_LIST, filesCopy);
         
         // Keep a map of in-progress file Ids to replicants

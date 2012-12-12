@@ -49,6 +49,7 @@ public class UploadCompleteServlet extends AbstractPlopboxServlet {
         // Need to get the file that is referenced and change its status to uploaded
         String fileId = request.getParameter(AppConstants.REQUEST_FILE_ID);
         String userId = request.getParameter(AppConstants.REQUEST_USER_ID);
+        String fileName = request.getParameter(AppConstants.REQUEST_FILE_NAME);
         
         List<PlopboxFile> masterFiles = (List<PlopboxFile>) context.getAttribute(AppConstants.MASTER_FILES_LIST);
         // find it
@@ -59,19 +60,17 @@ public class UploadCompleteServlet extends AbstractPlopboxServlet {
                 // found it
                 uploadedFile = file;
                 uploadedFile.setState(FileState.UPLOADED);
+                uploadedFile.setName(fileName);
                 // save it
                 log.debug("Marked file #" + fileId + " as uploaded.");
                 PlopboxFileService.updatePlopboxFile(file);
                 break;
             }
         }
-        
         // Now issue requests to other replicants to grab that file
-        
         Map<Long, Replicant> fileInProgMap = (Map<Long, Replicant>) context.getAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP);
         Replicant sourceReplicant = fileInProgMap.get(longFileId);
         PlopboxFileService.removeInProgressFileFromMap(longFileId, fileInProgMap);
-        log.debug(fileInProgMap.size() + " THATS THE SIZE OF THE MAP NOW");
         List<Replicant> replicants = (List<Replicant>) context.getAttribute(AppConstants.REPLICANTS);
         if (sourceReplicant == null) {
             log.debug("Source rep was null..");

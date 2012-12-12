@@ -1,9 +1,11 @@
 package com.cs739.app.servlet.master;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Lob;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,7 @@ import com.cs739.app.service.master.PlopboxFileService;
 import com.cs739.app.service.master.ReplicantService;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
+import com.cs739.app.util.AppConstants.FileState;
 import com.cs739.app.util.AppConstants.MasterPages;
 
 public class HomeServlet extends AbstractPlopboxServlet {
@@ -53,9 +56,11 @@ public class HomeServlet extends AbstractPlopboxServlet {
                 // Add this file to the Master's in-memory list of files
                 log.debug("new file ID: " + newFile.getId());
                 ServletContext context = request.getSession().getServletContext(); 
-                List<PlopboxFile> files = (List<PlopboxFile>) context.getAttribute(AppConstants.MASTER_FILES_LIST);
-                files.add(newFile);
-                context.setAttribute(AppConstants.MASTER_FILES_LIST, files);
+                List<PlopboxFile> masterFiles = (List<PlopboxFile>) context.getAttribute(AppConstants.MASTER_FILES_LIST);
+                log.debug("MASTER SIZE ON START");
+                log.debug(masterFiles.size()+"");
+                masterFiles.add(newFile);
+                context.setAttribute(AppConstants.MASTER_FILES_LIST, masterFiles);
                 // Now pick a replicant
                 Replicant r = ReplicantService.chooseReplicantForUpload((List<Replicant>)context.getAttribute(AppConstants.REPLICANTS));
                 // Send it a prepare request
@@ -68,11 +73,25 @@ public class HomeServlet extends AbstractPlopboxServlet {
                 log.debug(replicantResponse.getStatusLine().getStatusCode() + "");
                 // Mark file in-progress in map
                 PlopboxFileService.addInProgressFileToMap(newFile.getId(), r, ((Map<Long, Replicant>)context.getAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP)));
+                log.debug(masterFiles.size() + "");
+                // Also need to get a list of this user's replicated files
+                List<PlopboxFile> userFiles = new ArrayList<PlopboxFile>();
+                for (PlopboxFile file : masterFiles) {
+                    log.debug(file.getOwnerId() + "");
+                    log.debug(userId);
+                    log.debug(file.getState() + "");
+                    if (file.getOwnerId().equals(new Long(userId)) && file.getState().equals(FileState.REPLICATED)) {
+                        log.debug("HEY found a file");
+                        userFiles.add(file);
+                    }
+                }
+                log.debug(userFiles.size() + "");
                 // Set user info & file info
                 request.setAttribute(AppConstants.REPLICANT_PORT, r.getPort());
                 request.setAttribute(AppConstants.NEW_FILE_ID, newFile.getId());
                 request.setAttribute(AppConstants.USERNAME, username);
                 request.setAttribute(AppConstants.USER_ID, userId);
+                request.setAttribute(AppConstants.USER_FILES, userFiles);
                 forward(request, response, MasterPages.HOME.toString());
             }
         } catch (IOException e) {

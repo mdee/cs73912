@@ -136,6 +136,32 @@
       </tr>
   {% } %}
   </script>
+  <div class="container">
+  <div class="row">
+    <div class="span12">
+      <h2>Your Plopbox files:</h2>
+    </div>
+  </div>
+    <div class="row">
+      <div class="span12">
+        <table class="table">
+          <caption>Caption</caption>
+          <thead>
+            <tr>
+              <th>Filename</th>
+            </tr>
+          </thead>
+          <c:forEach var="file" items="${user_files}">
+            <tr>
+              <td><c:out value="${file.name}"/></td>
+            </tr>
+          </c:forEach>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
   <script src="../js/jquery-1.8.3.min.js"></script>
   <script src="../js/bootstrap.min.js"></script> 
   <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
