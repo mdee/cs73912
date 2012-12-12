@@ -78,8 +78,8 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
         String URL = request.getParameter("URL");
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 
-        nameValuePairs.add(new BasicNameValuePair("userID", request.getParameter("userID")));
-        nameValuePairs.add(new BasicNameValuePair("fileID", request.getParameter("fileID")));
+        nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
+        nameValuePairs.add(new BasicNameValuePair("fileId", request.getParameter("fileId")));
         nameValuePairs.add(new BasicNameValuePair("fileName", request.getParameter("fileName")));
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
         URL += "?";
@@ -100,7 +100,7 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
             }
 
             Blob imageBlob = new Blob(bais.toByteArray());
-            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
+            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileId"));
             PersistenceManager pm = PMF.get().getPersistenceManager();
             pm.makePersistent(newImage);
             pm.close();
@@ -179,12 +179,14 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
         String URL = request.getParameter("URL");
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 
-        nameValuePairs.add(new BasicNameValuePair("userID", request.getParameter("userID")));
-        nameValuePairs.add(new BasicNameValuePair("fileID", request.getParameter("fileID")));
+        nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
+        nameValuePairs.add(new BasicNameValuePair("fileId", request.getParameter("fileId")));
         nameValuePairs.add(new BasicNameValuePair("fileName", request.getParameter("fileName")));
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
         URL += "?";
         URL += paramString;
+
+        log.debug("on url: " + URL);
 
         ByteArrayOutputStream bais = new ByteArrayOutputStream();
         InputStream in = null;
@@ -198,8 +200,8 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
                 bais.write(byteChunk, 0, n);
             }
 
-            Blob imageBlob = new Blob(IOUtils.toByteArray(in));
-            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
+            Blob imageBlob = new Blob(bais.toByteArray());
+            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileId"));
             PersistenceManager pm = PMF.get().getPersistenceManager();
             pm.makePersistent(newImage);
             pm.close();

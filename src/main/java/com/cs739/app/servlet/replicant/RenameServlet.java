@@ -45,15 +45,11 @@ public class RenameServlet extends AbstractPlopboxServlet {
             out.println("No UserID or FileID was specified");
 
         }else {
-        	java.util.Enumeration paramNames = request.getParameterNames();
-            String userID = (String)paramNames.nextElement();
-            String fileID = (String)paramNames.nextElement();
-            String fileName = (String)paramNames.nextElement();
-            out.println(userID + " = " + request.getParameter("userID") + "<BR>");
-            out.println(fileID + " = " + request.getParameter("fileID") + "<BR>");
-            out.println(fileName + " = " + request.getParameter("fileName") + "<BR>");
+            out.println("userId" + " = " + request.getParameter("userId") + "<BR>");
+            out.println("fileId" + " = " + request.getParameter("fileId") + "<BR>");
+            out.println("fileName" + " = " + request.getParameter("fileName") + "<BR>");
             out.println("Attempting to delete with above credentials<BR>");
-            Pair pair = new Pair(request.getParameter("userID"), request.getParameter("fileID"));
+            Pair pair = new Pair(request.getParameter("userId"), request.getParameter("fileId"));
             
             Iterator it=AppConstants.OPEN_SESSION_LIST.iterator();
             out.println("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
@@ -69,7 +65,7 @@ public class RenameServlet extends AbstractPlopboxServlet {
             }else{
             	PersistenceManager pm = PMF.get().getPersistenceManager();
 		        try {
-		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileID")));
+		            PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileId")));
 		            image.setName(request.getParameter("fileName"));
 		            AppConstants.OPEN_SESSION_LIST.remove(pair);
 		            out.println("Renamed!<BR>");
