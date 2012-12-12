@@ -84,6 +84,7 @@ public class HomeServlet extends AbstractPlopboxServlet {
                         log.debug("HEY found a file");
                         // Set the replicant that will serve the user
                         Replicant server = ReplicantService.chooseReplicantForDownload(file.getId().toString(), replicants);
+                        log.debug("Server chosen: " + server.getId());
                         file.setLocation("http://" + server.getHost() + ":" + server.getPort() + "/pb/get?fileId=" + file.getId());
                         userFiles.add(file);
                     }

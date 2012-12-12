@@ -67,14 +67,15 @@ public class UploadCompleteServlet extends AbstractPlopboxServlet {
                 break;
             }
         }
+        // Also store this as on that replicant
+        
+        
         // Now issue requests to other replicants to grab that file
         Map<Long, Replicant> fileInProgMap = (Map<Long, Replicant>) context.getAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP);
         Replicant sourceReplicant = fileInProgMap.get(longFileId);
+        sourceReplicant.addFile(fileId);
         PlopboxFileService.removeInProgressFileFromMap(longFileId, fileInProgMap);
         List<Replicant> replicants = (List<Replicant>) context.getAttribute(AppConstants.REPLICANTS);
-        if (sourceReplicant == null) {
-            log.debug("Source rep was null..");
-        }
         if (replicants.size() == 0) {
             log.debug("List of replicants was zero...");
         }
@@ -87,11 +88,12 @@ public class UploadCompleteServlet extends AbstractPlopboxServlet {
             // Issue request
             String fileUrl = "http://" + sourceReplicant.getHost() + ":" + sourceReplicant.getPort() + "/pb/get?fileId=" + fileId;
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet replicantRequest = new HttpGet("http://" + r.getHost() + ":" + r.getPort() + "/pb/replicate?URL=" + fileUrl + "&fileId=" + fileId + "&fileName=foo");
+            HttpGet replicantRequest = new HttpGet("http://" + r.getHost() + ":" + r.getPort() + "/pb/replicate?URL=" + fileUrl + "&fileId=" + fileId + "&fileName=replicated_file");
             try {
                 HttpResponse replicantResponse = httpClient.execute(replicantRequest);
                 if (replicantResponse.getStatusLine().getStatusCode() == 200) {
                     log.debug("Replicate request was good");
+                    r.addFile(fileId);
                     PlopboxFileService.removeInProgressFileFromMap(longFileId, fileInProgMap);
                 } else {
                     log.debug("Replicate request failed somehow");
