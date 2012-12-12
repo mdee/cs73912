@@ -49,30 +49,30 @@ import com.google.appengine.api.datastore.Blob;
  *
  */
 public class ReplicateServlet extends AbstractPlopboxServlet {
-    
+
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory
             .getLogger(ReplicateServlet.class);
-    
+
     /**
      * Takes orders from the master to retreive a file from another server
      * @throws IOException 
      */
     @SuppressWarnings("unchecked")
-public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    	if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("doGet -- REPLICATING");
         }        
-        
+
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
-        
+
         // Get the urls to retrieve -- only actually supports one right now
-        
+
         Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
 
         String URL = request.getParameter("URL");
@@ -84,44 +84,44 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
         URL += "?";
         URL += paramString;
-        
+
         log.debug("on url: " + URL);
-        
+
         ByteArrayOutputStream bais = new ByteArrayOutputStream();
         InputStream in = null;
         try {
-        	URL url = new URL(URL);
-        	in = url.openStream();
-        	byte[] byteChunk = new byte[4096];
-        	int n;
-        	
-        	while( (n = in.read(byteChunk)) > 0){
-        		bais.write(byteChunk, 0, n);
-        	}
-        	
-        	 Blob imageBlob = new Blob(bais.toByteArray());
-             PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
-             PersistenceManager pm = PMF.get().getPersistenceManager();
-             pm.makePersistent(newImage);
-             pm.close();
-             
+            URL url = new URL(URL);
+            in = url.openStream();
+            byte[] byteChunk = new byte[4096];
+            int n;
+
+            while( (n = in.read(byteChunk)) > 0){
+                bais.write(byteChunk, 0, n);
+            }
+
+            Blob imageBlob = new Blob(bais.toByteArray());
+            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
+            PersistenceManager pm = PMF.get().getPersistenceManager();
+            pm.makePersistent(newImage);
+            pm.close();
+
         } catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-        	if (in != null){
-        	   in.close();
-        	}
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            if (in != null){
+                in.close();
+            }
         }
-        	/*HttpClient httpclient = new DefaultHttpClient();
+        /*HttpClient httpclient = new DefaultHttpClient();
             try {
                 HttpGet httpGet = new HttpGet(URL);
 
                 HttpResponse responseBody = httpclient.execute(httpGet);
-                
+
                 //ResponseHandler<String> responseHandler = new BasicResponseHandler();
                 //String responseBody = httpclient.execute(httpPost, responseHandler);
                 System.out.println("----------------------------------------");
@@ -134,22 +134,22 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 pm.makePersistent(newImage);
                 pm.close();
-                
-                
+
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }finally {
                 httpclient.getConnectionManager().shutdown();
             }*/
-        	
-        	
-       // }
-   
-        
+
+
+        // }
+
+
         // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
 
-        
+
         try {
             response.getOutputStream().write("Replicant added".getBytes());
         } catch (IOException e) {
@@ -157,23 +157,23 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Takes orders from the master to retreive a file from another server
      * @throws IOException 
      */
     @SuppressWarnings("unchecked")
-public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    	if (log.isDebugEnabled()) {
+        if (log.isDebugEnabled()) {
             log.debug("doPost -- REPLICATING");
         }        
-        
+
         HttpSession session = request.getSession();
         ServletContext context = session.getServletContext();
-        
+
         // Get the urls to retrieve -- only actually supports one right now
-        
+
         Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
 
         String URL = request.getParameter("URL");
@@ -185,42 +185,42 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
         URL += "?";
         URL += paramString;
-        
+
         ByteArrayOutputStream bais = new ByteArrayOutputStream();
         InputStream in = null;
         try {
-        	URL url = new URL(URL);
-        	in = url.openStream();
-        	byte[] byteChunk = new byte[4096];
-        	int n;
-        	
-        	while( (n = in.read(byteChunk)) > 0){
-        		bais.write(byteChunk, 0, n);
-        	}
-        	
-        	 Blob imageBlob = new Blob(IOUtils.toByteArray(in));
-             PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
-             PersistenceManager pm = PMF.get().getPersistenceManager();
-             pm.makePersistent(newImage);
-             pm.close();
-             
+            URL url = new URL(URL);
+            in = url.openStream();
+            byte[] byteChunk = new byte[4096];
+            int n;
+
+            while( (n = in.read(byteChunk)) > 0){
+                bais.write(byteChunk, 0, n);
+            }
+
+            Blob imageBlob = new Blob(IOUtils.toByteArray(in));
+            PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
+            PersistenceManager pm = PMF.get().getPersistenceManager();
+            pm.makePersistent(newImage);
+            pm.close();
+
         } catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-        	if (in != null){
-        	   in.close();
-        	}
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            if (in != null){
+                in.close();
+            }
         }
-        	/*HttpClient httpclient = new DefaultHttpClient();
+        /*HttpClient httpclient = new DefaultHttpClient();
             try {
                 HttpGet httpGet = new HttpGet(URL);
 
                 HttpResponse responseBody = httpclient.execute(httpGet);
-                
+
                 //ResponseHandler<String> responseHandler = new BasicResponseHandler();
                 //String responseBody = httpclient.execute(httpPost, responseHandler);
                 System.out.println("----------------------------------------");
@@ -233,22 +233,22 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 pm.makePersistent(newImage);
                 pm.close();
-                
-                
+
+
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }finally {
                 httpclient.getConnectionManager().shutdown();
             }*/
-        	
-        	
-       // }
-   
-        
+
+
+        // }
+
+
         // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
 
-        
+
         try {
             response.getOutputStream().write("Replicant added".getBytes());
         } catch (IOException e) {
@@ -256,6 +256,6 @@ public void doPost(HttpServletRequest request, HttpServletResponse response) thr
             e.printStackTrace();
         }
     }
-    
+
 
 }

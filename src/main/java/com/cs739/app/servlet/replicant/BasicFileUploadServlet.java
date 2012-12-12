@@ -3,7 +3,6 @@ package com.cs739.app.servlet.replicant;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import javax.jdo.PersistenceManager;
@@ -23,7 +22,6 @@ import com.cs739.app.model.PlopboxImage;
 import com.cs739.app.server.PMF;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
-import com.cs739.app.util.AppConstants.ReplicantPages;
 import com.cs739.app.util.Pair;
 import com.google.appengine.api.datastore.Blob;
 
@@ -40,25 +38,26 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             .getLogger(BasicFileUploadServlet.class);
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (log.isDebugEnabled()) {
             log.debug("doGet");
         }
         request.setAttribute("uploadMsg", "hi dude");
-        forward(request, response, ReplicantPages.INDEX.toString());
+        //forward(request, response, ReplicantPages.INDEX.toString());
+        response.setHeader("Access-Control-Allow-Origin","*");
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if (log.isDebugEnabled()) {
-            log.debug("doPost -- YOU IS UPLOADING");
-        }
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        
+        log.debug("REPLICANT RECEIVED SOMETHING!");
+        log.debug("doPost -- YOU IS UPLOADING");
         PrintWriter out = response.getWriter();
-        response.setContentType( "text/html" ); 
+        response.setContentType("text/html"); 
         ServletFileUpload upload = new ServletFileUpload();
         out.println("<HTML>");
+        
         if (!request.getParameterNames().hasMoreElements()) {
             out.println("<HEAD><TITLE>UploadServlet (no args)</TITLE></HEAD>");
             out.println("<BODY>");
@@ -66,20 +65,19 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             out.println("No UserID or FileID was specified");
 
         }else {
-            Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
-            String userID = paramNames.nextElement();
-            String fileID = paramNames.nextElement();
-            out.println(userID + " = " + request.getParameter("userID") + "<BR>");
-            out.println(fileID + " = " + request.getParameter("fileID") + "<BR>");
+            String fileId = request.getParameter(AppConstants.REQUEST_FILE_ID);
+            String userId = request.getParameter(AppConstants.REQUEST_USER_ID);
+            
+            out.println(userId + " = " + request.getParameter("userId") + "<BR>");
+            out.println(fileId + " = " + request.getParameter("fileId") + "<BR>");
             out.println("Attempting to upload with above credentials<BR>");
-            Pair pair = new Pair(request.getParameter("userID"), request.getParameter("fileID"));
-
-            Iterator it=AppConstants.OPEN_SESSION_LIST.iterator();
+            Pair<String,String> pair = new Pair<String,String>(userId, fileId);
+            Iterator it = AppConstants.OPEN_SESSION_LIST.iterator();
             out.println("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
+            log.debug("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
             while(it.hasNext())
             {
                 String value=(String)it.next().toString();
-
                 out.println("Value :"+value+"<BR>");
                 out.println(it.equals(pair) + "<BR>");
             }
@@ -87,10 +85,14 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
                 out.println("Invalid Request, you must get authority from the master first!");
             }else{
                 try {
+                    log.debug("inside try");
                     FileItemIterator fileIter = upload.getItemIterator(request);
                     while (fileIter.hasNext()) {
+                        log.debug("FILESS");
                         FileItemStream item = fileIter.next();
+                        
                         InputStream stream = item.openStream();
+                        
                         if (item.isFormField()) {
                             log.warn("Got a form field: " + item.getFieldName());
                         } else {
@@ -100,8 +102,9 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
 
                         // Is it an image?
                         if (item.getContentType().equals(PNG) || item.getContentType().equals(JPG)) {
-                            Blob imageBlob = new Blob(IOUtils.toByteArray(stream));
-                            PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, request.getParameter("fileID"));
+                            byte[] bytes = IOUtils.toByteArray(stream);
+                            Blob imageBlob = new Blob(bytes);
+                            PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, fileId);
                             PersistenceManager pm = PMF.get().getPersistenceManager();
                             pm.makePersistent(newImage);
                             pm.close();
@@ -122,6 +125,13 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
             }
         }
         out.println("</BODY></HTML>");
+        response.setHeader("Access-Control-Allow-Origin","*");
+        
+    }
+    
+    @Override
+    protected void doOptions(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin","*");
     }
 
 }

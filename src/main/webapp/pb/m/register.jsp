@@ -10,13 +10,10 @@
   <div class="container">
     <div class="row">
       <div class="span12">
-        <form class="form-horizontal" action="/pb/login" method="post">
+        <form class="form-horizontal" action="/pb/register" method="post">
           <fieldset>
-            <legend>Enter your Plopbox</legend>
+            <legend>Register your Plopbox</legend>
           </fieldset>
-          <div class="alert alert-error">
-            ${errorMsg}
-          </div>
           <div class="control-group">
             <label class="control-label" for="username">Username</label>
             <div class="controls">
@@ -32,11 +29,6 @@
           <div class="control-group">
             <div class="controls">
               <button type="submit" class="btn">Go!</button>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <a href="/pb/register">Register here</a>
             </div>
           </div>
         </form>

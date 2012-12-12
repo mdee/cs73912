@@ -15,6 +15,7 @@ import com.cs739.app.server.PMF;
  */
 public class ImageService {
     
+    @SuppressWarnings("unchecked")
     public static List<PlopboxImage> getAllImages() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query query = pm.newQuery(PlopboxImage.class);
@@ -22,6 +23,7 @@ public class ImageService {
         return results;
     }
     
+    @SuppressWarnings("unchecked")
     public static List<String> getImageIds() {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query query = pm.newQuery("select fileID from " + PlopboxImage.class.getName());

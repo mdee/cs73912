@@ -26,15 +26,35 @@ public class AppConstants {
     
     public static final String REPLICANTS = "REPLICANTS";
     
+    public static final String NEW_FILE_ID = "new_file_id";
+    
+    public static final String REPLICANT_PORT = "port";
+    
     public static final String REPLICANT_FILES_LIST = "REPLICANT_FILES_LIST";
     
+    public static final String MASTER_FILES_LIST = "MASTER_FILES_LIST";
+    
     public static final List<Pair<String, String> > OPEN_SESSION_LIST = new ArrayList<Pair<String, String> >();
+    
+    // Cookie stuff
+    public static final String USERNAME = "username";
+    public static final String USER_ID = "user_id";
+    
+    public static final String REQUEST_USER_ID = "userId";
+    public static final String REQUEST_FILE_ID = "fileId";
+    
     
     public static enum ReplicantState {
         AVAILABLE,
         BUSY,
         UNAVAILABLE;
     };
+    
+    public static enum FileState {
+        INITIALIZED,
+        UPLOADED,
+        REPLICATED;
+    }
     
     public static enum ReplicantPages {
         INDEX {
@@ -64,7 +84,18 @@ public class AppConstants {
             public String toString() {
                 return MASTER_JSP + "home.jsp";
             }
+        },
+        REGISTER {
+            public String toString() {
+                return MASTER_JSP + "register.jsp";
+            }
+        },
+        TEST {
+            public String toString() {
+                return MASTER_JSP + "test.jsp";
+            }
         }
+        
     }
     
     public static final String REPLICANT_ID_PREFIX = "R_";

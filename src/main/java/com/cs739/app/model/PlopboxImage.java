@@ -5,6 +5,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.cs739.app.util.AppConstants.FileState;
 import com.google.appengine.api.datastore.Blob;
 
 /**
@@ -27,7 +28,8 @@ public class PlopboxImage implements IPlopboxFile {
     @Persistent
     Blob data;
     
-    //@Persistent
+    @Persistent
+    FileState state;
     
     public PlopboxImage() {}
     
@@ -36,6 +38,15 @@ public class PlopboxImage implements IPlopboxFile {
         this.name = name; 
         this.data = data;
         this.id = new Long(fileID);
+        this.state = FileState.UPLOADED;
+    }
+
+    public FileState getState() {
+        return state;
+    }
+
+    public void setState(FileState state) {
+        this.state = state;
     }
 
     public Blob getData() { 

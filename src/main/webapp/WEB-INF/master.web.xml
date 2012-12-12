@@ -36,6 +36,24 @@
       com.cs739.app.servlet.master.LoginServlet
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RegisterServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.RegisterServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.HomeServlet
+    </servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TestServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.TestServlet
+    </servlet-class>
+  </servlet>
 
   <!-- Servlet Mappings -->
   <servlet-mapping>
@@ -58,6 +76,18 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/pb/login</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegisterServlet</servlet-name>
+    <url-pattern>/pb/register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/pb/home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestServlet</servlet-name>
+    <url-pattern>/pb/test</url-pattern>
+  </servlet-mapping>
     
   <!-- LISTNERZ -->
   <listener>
@@ -71,9 +101,26 @@
       com.cs739.app.filter.PlopboxMasterFilter
     </filter-class>
   </filter>
+  <!-- This is an app engine workaround to open sockets on replicants -->
+  <filter>
+    <filter-name>_ah_DevSocketFilter</filter-name>
+    <filter-class>
+      com.google.appengine.api.socket.dev.DevSocketFilter
+    </filter-class>
+    <init-param>
+      <param-name>use-native-sockets</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+
+
   <filter-mapping>
     <filter-name>PlopboxMasterFilter</filter-name>
     <url-pattern>/pb/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>_ah_DevSocketFilter</filter-name>
+    <url-pattern>/*</url-pattern>
   </filter-mapping>
     
   <welcome-file-list>
