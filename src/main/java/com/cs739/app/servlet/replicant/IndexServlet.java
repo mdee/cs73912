@@ -70,8 +70,13 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
     public void contextInitialized(ServletContextEvent contextEvent) {
         log.info("Context Created");
         context = contextEvent.getServletContext();
+        
+        log.debug("FUCK DUDE SUP");
+        // Get the port this server is running on
+        String port = context.getInitParameter(AppConstants.REPLICANT_PORT);
+        log.debug(port);
         List<String> fileIDs = ImageService.getImageIds();
-
+        
         context.setAttribute(AppConstants.REPLICANT_FILES_LIST, fileIDs);
         // start up replicant
         HttpClient httpclient = new DefaultHttpClient();
@@ -81,17 +86,17 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
 
             Iterator it=fileIDs.iterator();
             System.out.println("There are currently " + fileIDs.size() + " files on this server");
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(fileIDs.size() + 1);
             if (fileIDs.size() > 0){
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(fileIDs.size());
-
+                
                 while(it.hasNext()){
                     String value = (String)it.next();
                     System.out.println("Value :"+value+"\n");
                     nameValuePairs.add(new BasicNameValuePair(AppConstants.REPLICANT_FILES_LIST, value));
                 }
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             }
-
+            nameValuePairs.add(new BasicNameValuePair(AppConstants.REPLICANT_PORT, port));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             String responseBody = httpclient.execute(httpPost, responseHandler);
             System.out.println("----------------------------------------");

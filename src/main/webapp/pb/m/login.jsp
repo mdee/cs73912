@@ -14,6 +14,9 @@
           <fieldset>
             <legend>Enter your Plopbox</legend>
           </fieldset>
+          <div class="alert alert-error">
+            ${errorMsg}
+          </div>
           <div class="control-group">
             <label class="control-label" for="username">Username</label>
             <div class="controls">

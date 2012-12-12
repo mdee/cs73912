@@ -35,9 +35,11 @@ public class UserService {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         Query q = pm.newQuery(PlopboxUser.class, "username == usernameParam");
         q.declareParameters("String usernameParam");
-        Object o = q.execute(usernameParam);
-        // TODO: this might break if the list of results is empty
-        PlopboxUser user = ((List<PlopboxUser>) q.execute(usernameParam)).get(0);
+        PlopboxUser user = null;
+        List<PlopboxUser> users = ((List<PlopboxUser>) q.execute(usernameParam));
+        if (users.size() > 0) {
+            user = users.get(0);
+        }
         return user;
     }
     

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.PlopboxUser;
+import com.cs739.app.service.CookieService;
 import com.cs739.app.service.master.UserService;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
 import com.cs739.app.util.AppConstants;
@@ -26,22 +27,12 @@ public class LoginServlet extends AbstractPlopboxServlet {
             .getLogger(LoginServlet.class);
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        // Not doing anything...
         // Check for cookies
-        Cookie[] cookies = request.getCookies();
-        String username = null, userId = null;
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if (c.getName().equals(AppConstants.USERNAME)) {
-                    username = c.getValue();
-                } else if (c.getName().equals(AppConstants.USER_ID)) {
-                    userId = c.getValue();
-                }
-                log.debug(c.getName() + " - " + c.getValue());
-            }
-        }
+        String username = CookieService.getCookieValueFromRequest(request, AppConstants.USERNAME);
+        String userId = CookieService.getCookieValueFromRequest(request, AppConstants.USER_ID);
         try {
             if (username != null && userId != null){
+                log.debug("username & userID were not null, redirecting");
                 response.sendRedirect("home");
             } else {
                 forward(request, response, MasterPages.LOGIN.toString());
@@ -62,21 +53,28 @@ public class LoginServlet extends AbstractPlopboxServlet {
         log.debug("Retrieving user w/username: " + username);
         String hashWord = UserService.hashString(password);
         PlopboxUser user = UserService.getUserWithUsername(username);
-        // TODO: this might break if user is null
-        if (!user.getPassword().equals(hashWord)) {
-            log.error("You entered an incorrect password for the user!");
-            log.debug("But it's cool, we're letting errbody in");
-        }
-        // Let's add a new cookie with this user's ID # in it
-        Cookie idCookie = new Cookie(AppConstants.USER_ID, user.getId().toString());
-        Cookie nameCookie = new Cookie(AppConstants.USERNAME, user.getUsername());
-        response.addCookie(idCookie);
-        response.addCookie(nameCookie);
-        try {
-            response.sendRedirect("home");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (user == null) {
+            log.debug("User does not exist w/username: " + username);
+            // Set an error message and send back to login page
+            request.setAttribute("errorMsg", "That username isn't recognized. Register?");
+            forward(request, response, MasterPages.LOGIN.toString());
+        } else {
+            // This is so stupid that it needs to be wrapped inside a giant else
+            if (!user.getPassword().equals(hashWord)) {
+                log.error("You entered an incorrect password for the user!");
+                log.debug("But it's cool, we're letting errbody in");
+            }
+            // Let's add a new cookie with this user's ID # in it
+            Cookie idCookie = CookieService.createNewCookie(AppConstants.USER_ID, user.getId().toString());
+            Cookie nameCookie = CookieService.createNewCookie(AppConstants.USERNAME, user.getUsername());
+            response.addCookie(idCookie);
+            response.addCookie(nameCookie);
+            try {
+                response.sendRedirect("home");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 

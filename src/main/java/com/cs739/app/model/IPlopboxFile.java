@@ -19,7 +19,7 @@ public interface IPlopboxFile {
 
     public Blob getData();
 
-    public void setData(Blob data);    
+    public void setData(Blob data);
 
 }
 
