@@ -54,6 +54,12 @@
       com.cs739.app.servlet.master.TestServlet
     </servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UploadCompleteServlet</servlet-name>
+    <servlet-class>
+      com.cs739.app.servlet.master.UploadCompleteServlet
+    </servlet-class>
+  </servlet>
 
   <!-- Servlet Mappings -->
   <servlet-mapping>
@@ -87,6 +93,10 @@
   <servlet-mapping>
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/pb/test</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadCompleteServlet</servlet-name>
+    <url-pattern>/pb/uploadComplete</url-pattern>
   </servlet-mapping>
     
   <!-- LISTNERZ -->

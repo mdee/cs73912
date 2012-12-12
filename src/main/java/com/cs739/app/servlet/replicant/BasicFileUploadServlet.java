@@ -139,7 +139,7 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
                            
                         ResponseHandler<String> responseHandler = new BasicResponseHandler();
                         String responseBody = httpclient.execute(httpPost, responseHandler);
-                        
+                        log.debug("hey man");
                         System.out.println("----------------------------------------");
                         System.out.println(responseBody);
                         System.out.println("----------------------------------------");

@@ -47,18 +47,17 @@ public class GetServlet extends AbstractPlopboxServlet {
 
         if (!request.getParameterNames().hasMoreElements()) {
             System.out.println("No UserID or FileID was specified");
-
         }else {
             Enumeration<String> paramNames = (Enumeration<String>) request.getParameterNames();
-            String userID = paramNames.nextElement();
+            //String userID = paramNames.nextElement();
             String fileID = paramNames.nextElement();
 
-            Pair pair = new Pair(request.getParameter("userId"), request.getParameter("fileId"));
-
-
-            if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
-                System.out.println("Invalid Request, you must get authority from the master first!");
-            }else{
+//            Pair pair = new Pair(request.getParameter("userId"), request.getParameter("fileId"));
+//
+//
+//            if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
+//                System.out.println("Invalid Request, you must get authority from the master first!");
+//            }else{
                 PersistenceManager pm = PMF.get().getPersistenceManager();
                 try {
                     PlopboxImage image = pm.getObjectById(PlopboxImage.class, new Long(request.getParameter("fileId")));
@@ -67,13 +66,13 @@ public class GetServlet extends AbstractPlopboxServlet {
                     Blob imageBlob = image.getData();
                     output.write(imageBlob.getBytes());     
 
-                    AppConstants.OPEN_SESSION_LIST.remove(pair);
+                    //AppConstants.OPEN_SESSION_LIST.remove(pair);
                     System.out.println("Returned an image!<BR>");    
                 }catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }
+            //}
         }
 
     }

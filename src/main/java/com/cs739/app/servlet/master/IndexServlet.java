@@ -4,7 +4,9 @@ package com.cs739.app.servlet.master;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -86,11 +88,14 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
         context.setAttribute(AppConstants.REPLICANTS, new ArrayList<Replicant>());
         
         // GAE returns a read-only List, so copy it to a modifiable one
-        // TODO: figure out when to persist...?
         List<PlopboxFile> persistedFiles = PlopboxFileService.getAllPlopboxFiles();
         List<PlopboxFile> filesCopy = new ArrayList<PlopboxFile>();
         Collections.copy(persistedFiles, filesCopy);
         context.setAttribute(AppConstants.MASTER_FILES_LIST, filesCopy);
+        
+        // Keep a map of in-progress file Ids to replicants
+        Map<Long, Replicant> fileProgressReplicantMap = new HashMap<Long, Replicant>();
+        context.setAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP, fileProgressReplicantMap);
 
     }
     @Override

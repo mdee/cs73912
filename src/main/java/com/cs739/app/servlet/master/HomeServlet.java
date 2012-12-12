@@ -2,6 +2,7 @@ package com.cs739.app.servlet.master;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +66,8 @@ public class HomeServlet extends AbstractPlopboxServlet {
                 HttpResponse replicantResponse = httpClient.execute(prepareRequest);
                 log.debug("Here's what the replicant had to say about prepare: ");
                 log.debug(replicantResponse.getStatusLine().getStatusCode() + "");
+                // Mark file in-progress in map
+                PlopboxFileService.addInProgressFileToMap(newFile.getId(), r, ((Map<Long, Replicant>)context.getAttribute(AppConstants.IN_PROGRESS_FILE_REPL_MAP)));
                 // Set user info & file info
                 request.setAttribute(AppConstants.REPLICANT_PORT, r.getPort());
                 request.setAttribute(AppConstants.NEW_FILE_ID, newFile.getId());

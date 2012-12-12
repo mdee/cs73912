@@ -70,8 +70,6 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
     public void contextInitialized(ServletContextEvent contextEvent) {
         log.info("Context Created");
         context = contextEvent.getServletContext();
-        
-        log.debug("FUCK DUDE SUP");
         // Get the port this server is running on
         String port = context.getInitParameter(AppConstants.REPLICANT_PORT);
         log.debug(port);

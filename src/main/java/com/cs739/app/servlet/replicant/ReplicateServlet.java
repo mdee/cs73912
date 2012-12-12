@@ -78,12 +78,12 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
         String URL = request.getParameter("URL");
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 
-        nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
+        //nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
         nameValuePairs.add(new BasicNameValuePair("fileId", request.getParameter("fileId")));
         nameValuePairs.add(new BasicNameValuePair("fileName", request.getParameter("fileName")));
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
-        URL += "?";
-        URL += paramString;
+        //URL += "?";
+        //URL += paramString;
 
         log.debug("on url: " + URL);
 
@@ -116,40 +116,6 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
                 in.close();
             }
         }
-        /*HttpClient httpclient = new DefaultHttpClient();
-            try {
-                HttpGet httpGet = new HttpGet(URL);
-
-                HttpResponse responseBody = httpclient.execute(httpGet);
-
-                //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                //String responseBody = httpclient.execute(httpPost, responseHandler);
-                System.out.println("----------------------------------------");
-                System.out.println(responseBody.getStatusLine());
-                System.out.println("----------------------------------------");
-
-                InputStream in = responseBody.getEntity().getContent();
-                Blob imageBlob = new Blob(IOUtils.toByteArray(in));
-                PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
-                PersistenceManager pm = PMF.get().getPersistenceManager();
-                pm.makePersistent(newImage);
-                pm.close();
-
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }finally {
-                httpclient.getConnectionManager().shutdown();
-            }*/
-
-
-        // }
-
-
-        // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
-
-
         try {
             response.getOutputStream().write("Replicant added".getBytes());
         } catch (IOException e) {
@@ -179,7 +145,7 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
         String URL = request.getParameter("URL");
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 
-        nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
+        //nameValuePairs.add(new BasicNameValuePair("userId", request.getParameter("userId")));
         nameValuePairs.add(new BasicNameValuePair("fileId", request.getParameter("fileId")));
         nameValuePairs.add(new BasicNameValuePair("fileName", request.getParameter("fileName")));
         String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
@@ -217,40 +183,6 @@ public class ReplicateServlet extends AbstractPlopboxServlet {
                 in.close();
             }
         }
-        /*HttpClient httpclient = new DefaultHttpClient();
-            try {
-                HttpGet httpGet = new HttpGet(URL);
-
-                HttpResponse responseBody = httpclient.execute(httpGet);
-
-                //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                //String responseBody = httpclient.execute(httpPost, responseHandler);
-                System.out.println("----------------------------------------");
-                System.out.println(responseBody.getStatusLine());
-                System.out.println("----------------------------------------");
-
-                InputStream in = responseBody.getEntity().getContent();
-                Blob imageBlob = new Blob(IOUtils.toByteArray(in));
-                PlopboxImage newImage = new PlopboxImage(request.getParameter("fileName"), imageBlob, request.getParameter("fileID"));
-                PersistenceManager pm = PMF.get().getPersistenceManager();
-                pm.makePersistent(newImage);
-                pm.close();
-
-
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }finally {
-                httpclient.getConnectionManager().shutdown();
-            }*/
-
-
-        // }
-
-
-        // TODO: Figure out how to parse the strings files into an IPlopboxFile thang
-
-
         try {
             response.getOutputStream().write("Replicant added".getBytes());
         } catch (IOException e) {

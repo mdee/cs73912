@@ -1,13 +1,14 @@
 package com.cs739.app.service.master;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import com.cs739.app.model.PlopboxFile;
+import com.cs739.app.model.Replicant;
 import com.cs739.app.server.PMF;
-import com.cs739.app.util.AppConstants.FileState;
 
 
 public class PlopboxFileService {
@@ -25,7 +26,17 @@ public class PlopboxFileService {
         return ((List<PlopboxFile>) query.execute());
     }
     
-    public static void updatePlopboxFileState(Long fileId, FileState newState) {
-        
+    public static void updatePlopboxFile(PlopboxFile file) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        pm.makePersistent(file);
+        pm.close();
+    }
+    
+    public static void addInProgressFileToMap(Long fileId, Replicant r, Map<Long, Replicant> map) {
+        map.put(fileId, r);
+    }
+    
+    public static void removeInProgressFileFromMap(Long fileId, Map<Long, Replicant> map) {
+        map.remove(fileId);
     }
 }
