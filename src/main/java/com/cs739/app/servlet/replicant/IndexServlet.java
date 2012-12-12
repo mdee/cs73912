@@ -94,6 +94,9 @@ public class IndexServlet extends AbstractPlopboxServlet implements ServletConte
                     System.out.println("Value :"+value+"\n");
                     nameValuePairs.add(new BasicNameValuePair(AppConstants.REPLICANT_FILES_LIST, value));
                 }
+
+               // httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+               
             }
             nameValuePairs.add(new BasicNameValuePair(AppConstants.REPLICANT_PORT, port));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
