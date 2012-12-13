@@ -1,5 +1,8 @@
 package com.cs739.app.servlet.master;
 
+import java.io.IOException;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,8 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.cs739.app.model.PlopboxUser;
+import com.cs739.app.service.CookieService;
 import com.cs739.app.service.master.UserService;
 import com.cs739.app.servlet.AbstractPlopboxServlet;
+import com.cs739.app.util.AppConstants;
 import com.cs739.app.util.AppConstants.MasterPages;
 
 public class RegisterServlet extends AbstractPlopboxServlet {
@@ -40,9 +45,16 @@ public class RegisterServlet extends AbstractPlopboxServlet {
         UserService.saveNewPlopboxUser(newUser);
         log.debug("Just registered new user!");
         log.debug("Username: " + username);
-        
-        forward(request, response, MasterPages.HOME.toString());
-        
+        Cookie idCookie = CookieService.createNewCookie(AppConstants.USER_ID, newUser.getId().toString());
+        Cookie nameCookie = CookieService.createNewCookie(AppConstants.USERNAME, newUser.getUsername());
+        response.addCookie(idCookie);
+        response.addCookie(nameCookie);
+        try {
+            response.sendRedirect("home");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
