@@ -63,34 +63,35 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
 
         log.debug("REPLICANT RECEIVED SOMETHING!");
         log.debug("doPost -- YOU IS UPLOADING");
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html"); 
+        //PrintWriter out = response.getWriter();
+        response.setContentType("application/json"); 
         ServletFileUpload upload = new ServletFileUpload();
-        out.println("<HTML>");
+        //out.println("<HTML>");
 
-        if (!request.getParameterNames().hasMoreElements()) {
-            out.println("<HEAD><TITLE>UploadServlet (no args)</TITLE></HEAD>");
-            out.println("<BODY>");
-            out.println("<H1>UploadServlet</H1>");
-            out.println("No UserID or FileID was specified");
-
-        }else {
-
-            out.println("userId" + " = " + request.getParameter("userId") + "<BR>");
-            out.println("fileId" + " = " + request.getParameter("fileId") + "<BR>");
-            out.println("Attempting to upload with above credentials<BR>");
+//        if (!request.getParameterNames().hasMoreElements()) {
+//            out.println("<HEAD><TITLE>UploadServlet (no args)</TITLE></HEAD>");
+//            out.println("<BODY>");
+//            out.println("<H1>UploadServlet</H1>");
+//            out.println("No UserID or FileID was specified");
+//
+//        }else {
+//
+//            out.println("userId" + " = " + request.getParameter("userId") + "<BR>");
+//            out.println("fileId" + " = " + request.getParameter("fileId") + "<BR>");
+//            out.println("Attempting to upload with above credentials<BR>");
             Pair<String,String> pair = new Pair<String,String>(request.getParameter("userId"), request.getParameter("fileId"));
             Iterator it = AppConstants.OPEN_SESSION_LIST.iterator();
-            out.println("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
+            //out.println("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
             log.debug("There are currently " + AppConstants.OPEN_SESSION_LIST.size() + " open sessions<BR>");
-            while(it.hasNext())
-            {
-                String value=(String)it.next().toString();
-                out.println("Value :"+value+"<BR>");
-                out.println(it.equals(pair) + "<BR>");
-            }
+//            while(it.hasNext())
+//            {
+//                String value=(String)it.next().toString();
+//                out.println("Value :"+value+"<BR>");
+//                out.println(it.equals(pair) + "<BR>");
+//            }
             if (!AppConstants.OPEN_SESSION_LIST.contains(pair)){
-                out.println("Invalid Request, you must get authority from the master first!");
+                log.debug("Invalid request");
+                //out.println("Invalid Request, you must get authority from the master first!");
             }else{
                 HttpClient httpclient = new DefaultHttpClient();
                 String fileName = null;
@@ -109,21 +110,24 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
                             log.warn("Got an uploaded file: " + item.getFieldName() +
                                     ", name = " + item.getName());
                         }
-
+                        
+                        int length = 0;
                         // Is it an image?
                         if (item.getContentType().equals(PNG) || item.getContentType().equals(JPG)) {
                             byte[] bytes = IOUtils.toByteArray(stream);
+                            length = bytes.length;
                             Blob imageBlob = new Blob(bytes);
-                            
                             PlopboxImage newImage = new PlopboxImage(item.getName(), imageBlob, request.getParameter("fileId"));
                             PersistenceManager pm = PMF.get().getPersistenceManager();
                             pm.makePersistent(newImage);
                             pm.close();
                         }
-
+                        response.getOutputStream().print("{'name':'" + item.getName() + "','size':'" + length + "'}");
                     }
                     AppConstants.OPEN_SESSION_LIST.remove(pair);
-
+                    
+                    // write the # of bytes transferred to the client
+                    
                     // Prepare a post to master letting it know of success
                     HttpPost httpPost = new HttpPost("http://localhost:1234/pb/uploadComplete");
 
@@ -137,26 +141,21 @@ public class BasicFileUploadServlet extends AbstractPlopboxServlet {
 
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     String responseBody = httpclient.execute(httpPost, responseHandler);
-                    log.debug("hey man");
-                    System.out.println("----------------------------------------");
-                    System.out.println(responseBody);
-                    System.out.println("----------------------------------------");
-
-
-
-                    out.println("Success!!<BR>");
-
-
+                    log.debug("Response from master on uploadComplete:");
+                    log.debug(responseBody);
+                    //log.debug("hey man");
+//                    System.out.println("----------------------------------------");
+//                    System.out.println(responseBody);
+//                    System.out.println("----------------------------------------");
                 } catch (FileUploadException e) {
                     e.printStackTrace();
                 } finally {
                     httpclient.getConnectionManager().shutdown();
                 }
-            }
+      //      }
         }
-        out.println("</BODY></HTML>");
+        //out.println("</BODY></HTML>");
         response.setHeader("Access-Control-Allow-Origin","*");
-
     }
 
     @Override

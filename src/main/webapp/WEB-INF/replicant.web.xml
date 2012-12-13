@@ -8,7 +8,7 @@
   <context-param>
     <description>This is the port this server is running on</description>
     <param-name>port</param-name>
-    <param-value>6699</param-value>
+    <param-value>9966</param-value>
   </context-param>
 
   <!-- Servlets -->

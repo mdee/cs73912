@@ -115,7 +115,7 @@
               <td></td>
               <td class="name"><span>{%=file.name%}</span></td>
               <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
-              <td class="error" colspan="2"><span class="label label-important">Error</span> {%=file.error%}</td>
+              <td class="" colspan="2"><span class="label label-success">Success</span></td>
           {% } else { %}
               <td class="preview">{% if (file.thumbnail_url) { %}
                   <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
@@ -123,6 +123,9 @@
               <td class="name">
                   <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
               </td>
+              {%=file.size%}
+              {%=file.name%}
+              {%=file%}
               <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
               <td colspan="2"></td>
           {% } %}
